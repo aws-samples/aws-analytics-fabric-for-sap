@@ -63,13 +63,3 @@ For any support or technical questions please contact us on sap-accelerators@ama
 
 ## Roadmap
 Additional business processes will be added to this repo over time, based on customer feedback and priorities.
-
-## Authors and acknowledgment
-**Allison Quinn** - allieqk@amazon.com \
-**Sam Selvan** - saselvan@amazon.com \
-**Pavol Masarovic** - pmasarov@amazon.com \
-**Peter Perbellini** - ppperbel@amazon.com \
-**Sanjay Mallampati** - mallamsy@amazon.com 
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
