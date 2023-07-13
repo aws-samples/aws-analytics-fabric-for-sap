@@ -1,0 +1,1979 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: CloudFormation template for QuickSight datasource and datasets
+
+# Parameters substituted in the Resources section
+# These parameters are names of the resources created in QuickSight
+Parameters:
+  RedShiftSchema1:
+    Type: String
+    Description: Redshift schema name of the datasets
+    Defualt:
+  RedShiftSchema2:
+    Type: String
+    Description: Redshift schema name of the datasets (in this case we have two different schemas for this 5 datasets)
+    Defualt:
+  QsDataSourceArn:
+    Type: String
+    Description: The QuickSight data source ARN for the datasets
+    Default:
+  # Name of the datasets for the QuickSight
+  QsDataSetName1:
+    Type: String
+    Default: sales_document_header_latest
+  QsDataSetName2:
+    Type: String
+    Default: sales_document_header
+  QsDataSetName3:
+    Type: String
+    Default: delivery_item_latest
+  QsDataSetName4:
+    Type: String
+    Default: matr_master_latest
+  QsDataSetName5:
+    Type: String
+    Default: sales_delivery_header_latest
+
+
+# Resources to create the datasets for QuickSight
+Resources:
+  SalesDocumentHeaderLatestDataSet:
+    Type: AWS::QuickSight::DataSet
+    Properties:
+      AwsAccountId: !Ref AWS::AccountId
+      DataSetId: a4a17073-accb-42aa-9ed7-69723429b635
+      Name: !Ref QsDataSetName1
+      PhysicalTableMap:
+        dd920bdc-ad18-4b4e-9f98-f95fda385f60:
+          RelationalTable:
+            DataSourceArn: !Ref QsDataSourceArn
+            Schema: !Ref RedShiftSchema1
+            Name: !Ref QsDataSetName1
+            InputColumns:
+              - Name: cncl_data_recd_ind
+                Type: STRING
+              - Name: sls_dstrbn_document_nbr
+                Type: STRING
+              - Name: quotation_or_inquiry_is_valid_from
+                Type: DATETIME
+              - Name: sales_document_type
+                Type: STRING
+              - Name: order_reason
+                Type: STRING
+              - Name: bid_quotation_valid_date
+                Type: DATETIME
+              - Name: company_code
+                Type: STRING
+              - Name: record_create_date
+                Type: DATETIME
+              - Name: billing_block_in_sd_document
+                Type: STRING
+              - Name: local_currency
+                Type: STRING
+              - Name: sold_to_party
+                Type: STRING
+              - Name: exchange_rate_type
+                Type: STRING
+              - Name: customer_group_1
+                Type: STRING
+              - Name: customer_group_2
+                Type: STRING
+              - Name: customer_group_3
+                Type: STRING
+              - Name: customer_group_4
+                Type: STRING
+              - Name: customer_group_5
+                Type: STRING
+              - Name: delivery_block_document_header
+                Type: STRING
+              - Name: billing_type
+                Type: STRING
+              - Name: statistics_currency
+                Type: STRING
+              - Name: sd_document_category
+                Type: STRING
+              - Name: statistics_update_date
+                Type: DATETIME
+              - Name: sales_office
+                Type: STRING
+              - Name: sales_group
+                Type: STRING
+              - Name: sales_organization
+                Type: STRING
+              - Name: distribution_channel
+                Type: STRING
+              - Name: sd_document_currency
+                Type: STRING
+              - Name: order_header_division
+                Type: STRING
+              - Name: order_header_sales_doc_reference_category
+                Type: STRING
+              - Name: num_of_orders
+                Type: DECIMAL
+              - Name: fiscal_year_variant
+                Type: STRING
+              - Name: odq_change_mode
+                Type: STRING
+              - Name: odq_counter
+                Type: DECIMAL
+              - Name: dm_record_start_date
+                Type: DATETIME
+              - Name: dm_record_end_date
+                Type: DATETIME
+              - Name: dm_is_current
+                Type: STRING
+      LogicalTableMap:
+        1ef72502-ce60-4db3-94c6-8298087759cf:
+          Alias: !Ref QsDataSetName1
+          DataTransforms:
+            - ProjectOperation:
+                ProjectedColumns:
+                  - cncl_data_recd_ind
+                  - sls_dstrbn_document_nbr
+                  - quotation_or_inquiry_is_valid_from
+                  - sales_document_type
+                  - order_reason
+                  - bid_quotation_valid_date
+                  - company_code
+                  - record_create_date
+                  - billing_block_in_sd_document
+                  - local_currency
+                  - sold_to_party
+                  - exchange_rate_type
+                  - customer_group_1
+                  - customer_group_2
+                  - customer_group_3
+                  - customer_group_4
+                  - customer_group_5
+                  - delivery_block_document_header
+                  - billing_type
+                  - statistics_currency
+                  - sd_document_category
+                  - statistics_update_date
+                  - sales_office
+                  - sales_group
+                  - sales_organization
+                  - distribution_channel
+                  - sd_document_currency
+                  - order_header_division
+                  - order_header_sales_doc_reference_category
+                  - num_of_orders
+                  - fiscal_year_variant
+                  - odq_change_mode
+                  - odq_counter
+                  - dm_record_start_date
+                  - dm_record_end_date
+                  - dm_is_current
+          Source:
+            PhysicalTableId: dd920bdc-ad18-4b4e-9f98-f95fda385f60
+      OutputColumns:
+        - Name: cncl_data_recd_ind
+          Type: STRING
+        - Name: sls_dstrbn_document_nbr
+          Type: STRING
+        - Name: quotation_or_inquiry_is_valid_from
+          Type: DATETIME
+        - Name: sales_document_type
+          Type: STRING
+        - Name: order_reason
+          Type: STRING
+        - Name: bid_quotation_valid_date
+          Type: DATETIME
+        - Name: company_code
+          Type: STRING
+        - Name: record_create_date
+          Type: DATETIME
+        - Name: billing_block_in_sd_document
+          Type: STRING
+        - Name: local_currency
+          Type: STRING
+        - Name: sold_to_party
+          Type: STRING
+        - Name: exchange_rate_type
+          Type: STRING
+        - Name: customer_group_1
+          Type: STRING
+        - Name: customer_group_2
+          Type: STRING
+        - Name: customer_group_3
+          Type: STRING
+        - Name: customer_group_4
+          Type: STRING
+        - Name: customer_group_5
+          Type: STRING
+        - Name: delivery_block_document_header
+          Type: STRING
+        - Name: billing_type
+          Type: STRING
+        - Name: statistics_currency
+          Type: STRING
+        - Name: sd_document_category
+          Type: STRING
+        - Name: statistics_update_date
+          Type: DATETIME
+        - Name: sales_office
+          Type: STRING
+        - Name: sales_group
+          Type: STRING
+        - Name: sales_organization
+          Type: STRING
+        - Name: distribution_channel
+          Type: STRING
+        - Name: sd_document_currency
+          Type: STRING
+        - Name: order_header_division
+          Type: STRING
+        - Name: order_header_sales_doc_reference_category
+          Type: STRING
+        - Name: num_of_orders
+          Type: DECIMAL
+        - Name: fiscal_year_variant
+          Type: STRING
+        - Name: odq_change_mode
+          Type: STRING
+        - Name: odq_counter
+          Type: DECIMAL
+        - Name: dm_record_start_date
+          Type: DATETIME
+        - Name: dm_record_end_date
+          Type: DATETIME
+        - Name: dm_is_current
+          Type: STRING
+      ImportMode: DIRECT_QUERY
+      
+  SalesDocumentHeaderDataset:
+    Type: AWS::QuickSight::DataSet
+    Properties:
+      AwsAccountId: !Ref AWS::AccountId
+      DataSetId: 75951d21-4c33-4c78-9ed3-a3198f1dd5f9
+      Name: !Ref QsDataSetName2
+      ImportMode: DIRECT_QUERY
+      PhysicalTableMap:
+        SalesDocumentHeaderTable:
+          RelationalTable:
+            DataSourceArn: !Ref QsDataSourceArn
+            Schema: !Ref RedShiftSchema2
+            Name: !Ref QsDataSetName2
+            InputColumns:
+              - Name: cncl_data_recd_ind
+                Type: STRING
+              - Name: sls_dstrbn_document_nbr
+                Type: STRING
+              - Name: quotation_or_inquiry_is_valid_from
+                Type: DATETIME
+              - Name: sales_document_type
+                Type: STRING
+              - Name: order_reason
+                Type: STRING
+              - Name: bid_quotation_valid_date
+                Type: DATETIME
+              - Name: company_code
+                Type: STRING
+              - Name: record_create_date
+                Type: DATETIME
+              - Name: billing_block_in_sd_document
+                Type: STRING
+              - Name: local_currency
+                Type: STRING
+              - Name: sold_to_party
+                Type: STRING
+              - Name: exchange_rate_type
+                Type: STRING
+              - Name: customer_group_1
+                Type: STRING
+              - Name: customer_group_2
+                Type: STRING
+              - Name: customer_group_3
+                Type: STRING
+              - Name: customer_group_4
+                Type: STRING
+              - Name: customer_group_5
+                Type: STRING
+              - Name: delivery_block_document_header
+                Type: STRING
+              - Name: billing_type
+                Type: STRING
+              - Name: statistics_currency
+                Type: STRING
+              - Name: sd_document_category
+                Type: STRING
+              - Name: statistics_update_date
+                Type: DATETIME
+              - Name: sales_office
+                Type: STRING
+              - Name: sales_group
+                Type: STRING
+              - Name: sales_organization
+                Type: STRING
+              - Name: distribution_channel
+                Type: STRING
+              - Name: sd_document_currency
+                Type: STRING
+              - Name: order_header_division
+                Type: STRING
+              - Name: order_header_sales_doc_reference_category
+                Type: STRING
+              - Name: num_of_orders
+                Type: DECIMAL
+              - Name: fiscal_year_variant
+                Type: STRING
+              - Name: odq_change_mode
+                Type: STRING
+              - Name: odq_counter
+                Type: DECIMAL
+              - Name: dm_record_start_date
+                Type: DATETIME
+              - Name: dm_record_end_date
+                Type: DATETIME
+              - Name: dm_is_current
+                Type: STRING
+      LogicalTableMap:
+        SalesDocumentHeaderLogicalTable:
+          Alias: !Ref QsDataSetName2
+          Source:
+            PhysicalTableId: SalesDocumentHeaderTable
+      OutputColumns:
+        - Name: cncl_data_recd_ind
+          Type: STRING
+        - Name: sls_dstrbn_document_nbr
+          Type: STRING
+        - Name: quotation_or_inquiry_is_valid_from
+          Type: DATETIME
+        - Name: sales_document_type
+          Type: STRING
+        - Name: order_reason
+          Type: STRING
+        - Name: bid_quotation_valid_date
+          Type: DATETIME
+        - Name: company_code
+          Type: STRING
+        - Name: record_create_date
+          Type: DATETIME
+        - Name: billing_block_in_sd_document
+          Type: STRING
+        - Name: local_currency
+          Type: STRING
+        - Name: sold_to_party
+          Type: STRING
+        - Name: exchange_rate_type
+          Type: STRING
+        - Name: customer_group_1
+          Type: STRING
+        - Name: customer_group_2
+          Type: STRING
+        - Name: customer_group_3
+          Type: STRING
+        - Name: customer_group_4
+          Type: STRING
+        - Name: customer_group_5
+          Type: STRING
+        - Name: delivery_block_document_header
+          Type: STRING
+        - Name: billing_type
+          Type: STRING
+        - Name: statistics_currency
+          Type: STRING
+        - Name: sd_document_category
+          Type: STRING
+        - Name: statistics_update_date
+          Type: DATETIME
+        - Name: sales_office
+          Type: STRING
+        - Name: sales_group
+          Type: STRING
+        - Name: sales_organization
+          Type: STRING
+        - Name: distribution_channel
+          Type: STRING
+        - Name: sd_document_currency
+          Type: STRING
+        - Name: order_header_division
+          Type: STRING
+        - Name: order_header_sales_doc_reference_category
+          Type: STRING
+        - Name: num_of_orders
+          Type: DECIMAL
+        - Name: fiscal_year_variant
+          Type: STRING
+        - Name: odq_change_mode
+          Type: STRING
+        - Name: odq_counter
+          Type: DECIMAL
+        - Name: dm_record_start_date
+          Type: DATETIME
+        - Name: dm_record_end_date
+          Type: DATETIME
+        - Name: dm_is_current
+          Type: STRING
+      
+  DeliveryItemLatestDataSet:
+      Type: AWS::QuickSight::DataSet
+      Properties:
+        AwsAccountId: !Ref AWS::AccountId
+        DataSetId: 74b44395-e7b9-4e0c-89ae-57b8e1d2ff8b
+        Name: !Ref QsDataSetName3
+        PhysicalTableMap:
+          cf47f443-757d-4e53-bea3-c8369ab102fb:
+            RelationalTable:
+              DataSourceArn: !Ref QsDataSourceArn
+              Schema: !Ref RedShiftSchema1
+              Name: !Ref QsDataSetName3
+              InputColumns:
+                - Name: cncl_data_recd_ind
+                  Type: STRING
+                - Name: sls_dstrbn_document_nbr
+                  Type: STRING
+                - Name: picking_or_putaway_confirmation_status
+                  Type: STRING
+                - Name: item_picking_or_putaway_status
+                  Type: STRING
+                - Name: sd_doc_item_nbr
+                  Type: STRING
+                - Name: item_goods_movement_status
+                  Type: STRING
+                - Name: unloading_point
+                  Type: STRING
+                - Name: company_code
+                  Type: STRING
+                - Name: sales_district
+                  Type: STRING
+                - Name: billing_block_in_sd_document
+                  Type: STRING
+                - Name: incoterms_part_1
+                  Type: STRING
+                - Name: incoterms_part_2
+                  Type: STRING
+                - Name: customer_group
+                  Type: STRING
+                - Name: sold_to_party
+                  Type: STRING
+                - Name: ship_to_party
+                  Type: STRING
+                - Name: delivery_type
+                  Type: STRING
+                - Name: delivery_date
+                  Type: DATETIME
+                - Name: vendor_account_number
+                  Type: STRING
+                - Name: delivery_block_document_header
+                  Type: STRING
+                - Name: loading_point
+                  Type: STRING
+                - Name: route
+                  Type: STRING
+                - Name: sd_document_category
+                  Type: STRING
+                - Name: sales_organization
+                  Type: STRING
+                - Name: shipping_or_receiving_point
+                  Type: STRING
+                - Name: planned_goods_movement_date
+                  Type: DATETIME
+                - Name: actual_goods_movement_date
+                  Type: DATETIME
+                - Name: last_changed_on
+                  Type: DATETIME
+                - Name: promotion
+                  Type: STRING
+                - Name: item_gross_weight
+                  Type: DECIMAL
+                - Name: application_component
+                  Type: STRING
+                - Name: sap_bw_transaction_key
+                  Type: STRING
+                - Name: batch_number
+                  Type: STRING
+                - Name: international_article_number_ean_upc
+                  Type: STRING
+                - Name: record_create_date
+                  Type: DATETIME
+                - Name: object_creator_name
+                  Type: STRING
+                - Name: entry_time
+                  Type: STRING
+                - Name: billing_block_for_item
+                  Type: STRING
+                - Name: weight_unit
+                  Type: STRING
+                - Name: business_area
+                  Type: STRING
+                - Name: picking_control_indicator
+                  Type: STRING
+                - Name: customer_group_1
+                  Type: STRING
+                - Name: customer_group_2
+                  Type: STRING
+                - Name: customer_group_3
+                  Type: STRING
+                - Name: customer_group_4
+                  Type: STRING
+                - Name: customer_group_5
+                  Type: STRING
+                - Name: consumption_posting
+                  Type: STRING
+                - Name: actual_quantity_delivered_in_sales_units
+                  Type: DECIMAL
+                - Name: actualquantitydeliveredinstockkeepingunits
+                  Type: DECIMAL
+                - Name: warehouse_number_or_complex
+                  Type: STRING
+                - Name: storage_location
+                  Type: STRING
+                - Name: storage_bin
+                  Type: STRING
+                - Name: storagetype
+                  Type: STRING
+                - Name: material_group
+                  Type: STRING
+                - Name: material_number
+                  Type: STRING
+                - Name: material_entered
+                  Type: STRING
+                - Name: base_unit_of_measure
+                  Type: STRING
+                - Name: material_group_1
+                  Type: STRING
+                - Name: material_group_2
+                  Type: STRING
+                - Name: material_group_3
+                  Type: STRING
+                - Name: material_group_4
+                  Type: STRING
+                - Name: material_group_5
+                  Type: STRING
+                - Name: net_weight_of_the_item
+                  Type: DECIMAL
+                - Name: bill_to_party
+                  Type: STRING
+                - Name: payer
+                  Type: STRING
+                - Name: item_type
+                  Type: STRING
+                - Name: product_hierarchy
+                  Type: STRING
+                - Name: forwarding_agent
+                  Type: STRING
+                - Name: sales_document_item_category
+                  Type: STRING
+                - Name: sales_employee
+                  Type: STRING
+                - Name: statistics_date
+                  Type: DATETIME
+                - Name: sales_qty_sku_denominator
+                  Type: DECIMAL
+                - Name: sales_qty_sku_numerator
+                  Type: DECIMAL
+                - Name: fixed_shipping_processing_time_in_days
+                  Type: DECIMAL
+                - Name: variable_shipping_processing_time_in_days
+                  Type: DECIMAL
+                - Name: statistics_update_date
+                  Type: DATETIME
+                - Name: reference_document_nbr
+                  Type: STRING
+                - Name: reference_item_nbr
+                  Type: STRING
+                - Name: preceding_sd_doc_category
+                  Type: STRING
+                - Name: sales_office
+                  Type: STRING
+                - Name: sales_group
+                  Type: STRING
+                - Name: volume_unit
+                  Type: STRING
+                - Name: item_volume
+                  Type: DECIMAL
+                - Name: sales_unit
+                  Type: STRING
+                - Name: distribution_channel
+                  Type: STRING
+                - Name: own_or_external_plant
+                  Type: STRING
+                - Name: num_of_delivery_items
+                  Type: DECIMAL
+                - Name: order_header_division
+                  Type: STRING
+                - Name: wbs_element
+                  Type: STRING
+                - Name: fiscal_year_variant
+                  Type: STRING
+                - Name: bw_extraction_le_actual_gi_delay
+                  Type: DECIMAL
+                - Name: campaign_of_referred_sales_order_item_for_bw_extraction
+                  Type: STRING
+                - Name: odq_change_mode
+                  Type: STRING
+                - Name: odq_counter
+                  Type: DECIMAL
+                - Name: dm_record_start_date
+                  Type: DATETIME
+                - Name: dm_record_end_date
+                  Type: DATETIME
+                - Name: dm_is_current
+                  Type: STRING
+      LogicalTableMap:
+        835a4649-db7d-49b5-9a15-7e94a2600ca6:
+          Alias: !Ref QsDataSetName3
+          DataTransforms:
+            - ProjectOperation:
+                ProjectedColumns:
+                  - cncl_data_recd_ind
+                  - sls_dstrbn_document_nbr
+                  - picking_or_putaway_confirmation_status
+                  - item_picking_or_putaway_status
+                  - sd_doc_item_nbr
+                  - item_goods_movement_status
+                  - unloading_point
+                  - company_code
+                  - sales_district
+                  - billing_block_in_sd_document
+                  - incoterms_part_1
+                  - incoterms_part_2
+                  - customer_group
+                  - sold_to_party
+                  - ship_to_party
+                  - delivery_type
+                  - delivery_date
+                  - vendor_account_number
+                  - delivery_block_document_header
+                  - loading_point
+                  - route
+                  - sd_document_category
+                  - sales_organization
+                  - shipping_or_receiving_point
+                  - planned_goods_movement_date
+                  - actual_goods_movement_date
+                  - last_changed_on
+                  - promotion
+                  - item_gross_weight
+                  - application_component
+                  - sap_bw_transaction_key
+                  - batch_number
+                  - international_article_number_ean_upc
+                  - record_create_date
+                  - object_creator_name
+                  - entry_time
+                  - billing_block_for_item
+                  - weight_unit
+                  - business_area
+                  - picking_control_indicator
+                  - customer_group_1
+                  - customer_group_2
+                  - customer_group_3
+                  - customer_group_4
+                  - customer_group_5
+                  - consumption_posting
+                  - actual_quantity_delivered_in_sales_units
+                  - actualquantitydeliveredinstockkeepingunits
+                  - warehouse_number_or_complex
+                  - storage_location
+                  - storage_bin
+                  - storagetype
+                  - material_group
+                  - material_number
+                  - material_entered
+                  - base_unit_of_measure
+                  - material_group_1
+                  - material_group_2
+                  - material_group_3
+                  - material_group_4
+                  - material_group_5
+                  - net_weight_of_the_item
+                  - bill_to_party
+                  - payer
+                  - item_type
+                  - product_hierarchy
+                  - forwarding_agent
+                  - sales_document_item_category
+                  - sales_employee
+                  - statistics_date
+                  - sales_qty_sku_denominator
+                  - sales_qty_sku_numerator
+                  - fixed_shipping_processing_time_in_days
+                  - variable_shipping_processing_time_in_days
+                  - statistics_update_date
+                  - reference_document_nbr
+                  - reference_item_nbr
+                  - preceding_sd_doc_category
+                  - sales_office
+                  - sales_group
+                  - volume_unit
+                  - item_volume
+                  - sales_unit
+                  - distribution_channel
+                  - own_or_external_plant
+                  - num_of_delivery_items
+                  - order_header_division
+                  - wbs_element
+                  - fiscal_year_variant
+                  - bw_extraction_le_actual_gi_delay
+                  - campaign_of_referred_sales_order_item_for_bw_extraction
+                  - odq_change_mode
+                  - odq_counter
+                  - dm_record_start_date
+                  - dm_record_end_date
+                  - dm_is_current
+          Source:
+            PhysicalTableId: cf47f443-757d-4e53-bea3-c8369ab102fb
+      OutputColumns:
+        - Name: cncl_data_recd_ind
+          Type: STRING
+        - Name: sls_dstrbn_document_nbr
+          Type: STRING
+        - Name: picking_or_putaway_confirmation_status
+          Type: STRING
+        - Name: item_picking_or_putaway_status
+          Type: STRING
+        - Name: sd_doc_item_nbr
+          Type: STRING
+        - Name: item_goods_movement_status
+          Type: STRING
+        - Name: unloading_point
+          Type: STRING
+        - Name: company_code
+          Type: STRING
+        - Name: sales_district
+          Type: STRING
+        - Name: billing_block_in_sd_document
+          Type: STRING
+        - Name: incoterms_part_1
+          Type: STRING
+        - Name: incoterms_part_2
+          Type: STRING
+        - Name: customer_group
+          Type: STRING
+        - Name: sold_to_party
+          Type: STRING
+        - Name: ship_to_party
+          Type: STRING
+        - Name: delivery_type
+          Type: STRING
+        - Name: delivery_date
+          Type: DATETIME
+        - Name: vendor_account_number
+          Type: STRING
+        - Name: delivery_block_document_header
+          Type: STRING
+        - Name: loading_point
+          Type: STRING
+        - Name: route
+          Type: STRING
+        - Name: sd_document_category
+          Type: STRING
+        - Name: sales_organization
+          Type: STRING
+        - Name: shipping_or_receiving_point
+          Type: STRING
+        - Name: planned_goods_movement_date
+          Type: DATETIME
+        - Name: actual_goods_movement_date
+          Type: DATETIME
+        - Name: last_changed_on
+          Type: DATETIME
+        - Name: promotion
+          Type: STRING
+        - Name: item_gross_weight
+          Type: DECIMAL
+        - Name: application_component
+          Type: STRING
+        - Name: sap_bw_transaction_key
+          Type: STRING
+        - Name: batch_number
+          Type: STRING
+        - Name: international_article_number_ean_upc
+          Type: STRING
+        - Name: record_create_date
+          Type: DATETIME
+        - Name: object_creator_name
+          Type: STRING
+        - Name: entry_time
+          Type: STRING
+        - Name: billing_block_for_item
+          Type: STRING
+        - Name: weight_unit
+          Type: STRING
+        - Name: business_area
+          Type: STRING
+        - Name: picking_control_indicator
+          Type: STRING
+        - Name: customer_group_1
+          Type: STRING
+        - Name: customer_group_2
+          Type: STRING
+        - Name: customer_group_3
+          Type: STRING
+        - Name: customer_group_4
+          Type: STRING
+        - Name: customer_group_5
+          Type: STRING
+        - Name: consumption_posting
+          Type: STRING
+        - Name: actual_quantity_delivered_in_sales_units
+          Type: DECIMAL
+        - Name: actualquantitydeliveredinstockkeepingunits
+          Type: DECIMAL
+        - Name: warehouse_number_or_complex
+          Type: STRING
+        - Name: storage_location
+          Type: STRING
+        - Name: storage_bin
+          Type: STRING
+        - Name: storagetype
+          Type: STRING
+        - Name: material_group
+          Type: STRING
+        - Name: material_number
+          Type: STRING
+        - Name: material_entered
+          Type: STRING
+        - Name: base_unit_of_measure
+          Type: STRING
+        - Name: material_group_1
+          Type: STRING
+        - Name: material_group_2
+          Type: STRING
+        - Name: material_group_3
+          Type: STRING
+        - Name: material_group_4
+          Type: STRING
+        - Name: material_group_5
+          Type: STRING
+        - Name: net_weight_of_the_item
+          Type: DECIMAL
+        - Name: bill_to_party
+          Type: STRING
+        - Name: payer
+          Type: STRING
+        - Name: item_type
+          Type: STRING
+        - Name: product_hierarchy
+          Type: STRING
+        - Name: forwarding_agent
+          Type: STRING
+        - Name: sales_document_item_category
+          Type: STRING
+        - Name: sales_employee
+          Type: STRING
+        - Name: statistics_date
+          Type: DATETIME
+        - Name: sales_qty_sku_denominator
+          Type: DECIMAL
+        - Name: sales_qty_sku_numerator
+          Type: DECIMAL
+        - Name: fixed_shipping_processing_time_in_days
+          Type: DECIMAL
+        - Name: variable_shipping_processing_time_in_days
+          Type: DECIMAL
+        - Name: statistics_update_date
+          Type: DATETIME
+        - Name: reference_document_nbr
+          Type: STRING
+        - Name: reference_item_nbr
+          Type: STRING
+        - Name: preceding_sd_doc_category
+          Type: STRING
+        - Name: sales_office
+          Type: STRING
+        - Name: sales_group
+          Type: STRING
+        - Name: volume_unit
+          Type: STRING
+        - Name: item_volume
+          Type: DECIMAL
+        - Name: sales_unit
+          Type: STRING
+        - Name: distribution_channel
+          Type: STRING
+        - Name: own_or_external_plant
+          Type: STRING
+        - Name: num_of_delivery_items
+          Type: DECIMAL
+        - Name: order_header_division
+          Type: STRING
+        - Name: wbs_element
+          Type: STRING
+        - Name: fiscal_year_variant
+          Type: STRING
+        - Name: bw_extraction_le_actual_gi_delay
+          Type: DECIMAL
+        - Name: campaign_of_referred_sales_order_item_for_bw_extraction
+          Type: STRING
+        - Name: odq_change_mode
+          Type: STRING
+        - Name: odq_counter
+          Type: DECIMAL
+        - Name: dm_record_start_date
+          Type: DATETIME
+        - Name: dm_record_end_date
+          Type: DATETIME
+        - Name: dm_is_current
+          Type: STRING
+      ImportMode: DIRECT_QUERY
+      
+  MatrMasterLatestDataSet:
+    Type: AWS::QuickSight::DataSet
+    Properties:
+      AwsAccountId: !Ref AWS::AccountId
+      DataSetId: 9566022a-0767-4fe5-8a2a-5d3616c76011
+      Name: !Ref QsDataSetName4
+      PhysicalTableMap:
+        b6a49e7e-128e-4ee7-9a99-546a66596aed:
+          RelationalTable:
+            DataSourceArn: !Ref QsDataSourceArn
+            Schema: !Ref RedShiftSchema1
+            Name: !Ref QsDataSetName4
+            InputColumns:
+              - Name: client
+                Type: STRING
+              - Name: material_number
+                Type: STRING
+              - Name: created_on
+                Type: DATETIME
+              - Name: object_creator_name
+                Type: STRING
+              - Name: date_of_last_change
+                Type: DATETIME
+              - Name: name_of_person_who_changed_object
+                Type: STRING
+              - Name: maintenance_status_of_complete_material
+                Type: STRING
+              - Name: maintenance_status
+                Type: STRING
+              - Name: flag_material_for_deletion_at_client_level
+                Type: STRING
+              - Name: material_type
+                Type: STRING
+              - Name: industry_sector
+                Type: STRING
+              - Name: material_group
+                Type: STRING
+              - Name: old_material_number
+                Type: STRING
+              - Name: base_unit_of_measure
+                Type: STRING
+              - Name: purchase_order_unit_of_measure
+                Type: STRING
+              - Name: document_number_without_document_management_system
+                Type: STRING
+              - Name: document_type_without_document_management_system
+                Type: STRING
+              - Name: document_version_without_document_management_system
+                Type: STRING
+              - Name: page_format_of_document_without_document_management_system
+                Type: STRING
+              - Name: document_change_number_without_document_management_system
+                Type: STRING
+              - Name: page_number_of_document_without_document_management_system
+                Type: STRING
+              - Name: number_of_sheets_without_document_management_system
+                Type: INTEGER
+              - Name: production_or_inspection_memo
+                Type: STRING
+              - Name: page_format_of_production_memo
+                Type: STRING
+              - Name: size_or_dimensions
+                Type: STRING
+              - Name: basic_material
+                Type: STRING
+              - Name: industry_standard_description_such_as_ansi_or_iso
+                Type: STRING
+              - Name: laboratory_or_design_office
+                Type: STRING
+              - Name: purchasing_value_key
+                Type: STRING
+              - Name: item_gross_weight
+                Type: DECIMAL
+              - Name: net_weight_of_the_item
+                Type: DECIMAL
+              - Name: weight_unit
+                Type: STRING
+              - Name: item_volume
+                Type: DECIMAL
+              - Name: volume_unit
+                Type: STRING
+              - Name: container_requirements
+                Type: STRING
+              - Name: storage_conditions
+                Type: STRING
+              - Name: temperature_conditions_indicator
+                Type: STRING
+              - Name: low_level_code
+                Type: STRING
+              - Name: transportation_group
+                Type: STRING
+              - Name: hazardous_material_number
+                Type: STRING
+              - Name: division
+                Type: STRING
+              - Name: sold_to_party
+                Type: STRING
+              - Name: european_article_number_ean_obsolete
+                Type: STRING
+              - Name: number_of_gr_or_gi_slips_to_be_printed
+                Type: DECIMAL
+              - Name: procurement_rule
+                Type: STRING
+              - Name: source_of_supply
+                Type: STRING
+              - Name: season_category
+                Type: STRING
+              - Name: label_type
+                Type: STRING
+              - Name: label_form
+                Type: STRING
+              - Name: disposal_type
+                Type: STRING
+              - Name: international_article_number_ean_upc
+                Type: STRING
+              - Name: category_of_international_article_number_ean
+                Type: STRING
+              - Name: length
+                Type: DECIMAL
+              - Name: width
+                Type: DECIMAL
+              - Name: height
+                Type: DECIMAL
+              - Name: unit_of_dimension_for_length_or_width_or_height
+                Type: STRING
+              - Name: product_hierarchy
+                Type: STRING
+              - Name: stock_transfer_net_change_costing
+                Type: STRING
+              - Name: cad_indicator
+                Type: STRING
+              - Name: qm_in_procurement_is_active
+                Type: STRING
+              - Name: allowed_packaging_weight
+                Type: DECIMAL
+              - Name: unit_of_weight_allowed_packaging_weight
+                Type: STRING
+              - Name: allowed_packaging_volume
+                Type: DECIMAL
+              - Name: volume_unit_allowed_packaging_volume
+                Type: STRING
+              - Name: excess_weight_tolerance_for_handling_unit
+                Type: DECIMAL
+              - Name: excess_volume_tolerance_of_the_handling_unit
+                Type: DECIMAL
+              - Name: variable_purchase_order_unit_active
+                Type: STRING
+              - Name: revision_level_has_been_assigned_to_the_material
+                Type: STRING
+              - Name: configurable_material
+                Type: STRING
+              - Name: batch_management_requirement_indicator
+                Type: STRING
+              - Name: packaging_material_type
+                Type: STRING
+              - Name: maximum_level_by_volume
+                Type: DECIMAL
+              - Name: stacking_factor
+                Type: INTEGER
+              - Name: material_group_packaging_materials
+                Type: STRING
+              - Name: authorization_group
+                Type: STRING
+              - Name: valid_from_date
+                Type: DATETIME
+              - Name: deletion_date
+                Type: DATETIME
+              - Name: season_year
+                Type: STRING
+              - Name: price_band_category
+                Type: STRING
+              - Name: empties_bill_of_material
+                Type: STRING
+              - Name: external_material_group
+                Type: STRING
+              - Name: cross_plant_configurable_material
+                Type: STRING
+              - Name: material_category
+                Type: STRING
+              - Name: material_co_product_indicator
+                Type: STRING
+              - Name: material_follow_up_material_indicator
+                Type: STRING
+              - Name: pricing_reference_material
+                Type: STRING
+              - Name: cross_plant_material_status
+                Type: STRING
+              - Name: cross_distribution_chain_material_status
+                Type: STRING
+              - Name: date_from_which_the_cross_plant_material_status_is_valid
+                Type: DATETIME
+              - Name: date_from_which_the_x_distr_chain_material_status_is_valid
+                Type: DATETIME
+              - Name: tax_classification_of_the_material
+                Type: STRING
+              - Name: catalog_profile
+                Type: STRING
+              - Name: minimum_remaining_shelf_life
+                Type: DECIMAL
+              - Name: total_shelf_life
+                Type: DECIMAL
+              - Name: storage_percentage
+                Type: DECIMAL
+              - Name: content_unit
+                Type: STRING
+              - Name: net_contents
+                Type: DECIMAL
+              - Name: comparison_price_unit
+                Type: DECIMAL
+              - Name: is_r_labeling_material_grouping_deactivated
+                Type: STRING
+              - Name: gross_contents
+                Type: DECIMAL
+              - Name: quantity_conversion_method
+                Type: STRING
+              - Name: internal_object_number
+                Type: STRING
+              - Name: environmentally_relevant
+                Type: STRING
+              - Name: product_allocation_determination_procedure
+                Type: STRING
+              - Name: pricing_profile_for_variants
+                Type: STRING
+              - Name: material_qualifies_for_discount_in_kind
+                Type: STRING
+              - Name: manufacturer_part_number
+                Type: STRING
+              - Name: manufacturer_number
+                Type: STRING
+              - Name: number_of_firms_own_internal_inventory_managed_material
+                Type: STRING
+              - Name: mfr_part_profile
+                Type: STRING
+              - Name: units_of_measure_usage
+                Type: STRING
+              - Name: rollout_in_a_season
+                Type: STRING
+              - Name: dangerous_goods_indicator_profile
+                Type: STRING
+              - Name: highly_viscous_indicator
+                Type: STRING
+              - Name: in_bulk_or_liquid_indicator
+                Type: STRING
+              - Name: level_of_explicitness_for_serial_number
+                Type: STRING
+              - Name: packaging_material_is_closed_packaging
+                Type: STRING
+              - Name: approved_batch_record_required
+                Type: STRING
+              - Name: assign_effectivity_parameter_values_or__override_change_numbers
+                Type: STRING
+              - Name: material_completion_level
+                Type: STRING
+              - Name: period_indicator_for_shelf_life_expiration_date
+                Type: STRING
+              - Name: rounding_rule_for_calculation_of_sled
+                Type: STRING
+              - Name: product_composition_printed_on_packaging_indicator
+                Type: STRING
+              - Name: general_item_category_group
+                Type: STRING
+              - Name: generic_material_with_logistical_variants
+                Type: STRING
+              - Name: material_is_activated_for_cw
+                Type: STRING
+              - Name: valuation_unit_of_measure
+                Type: STRING
+              - Name: tolerance_group_for_cwm
+                Type: STRING
+              - Name: checkbox
+                Type: STRING
+              - Name: base_unit_of_measure_cwm
+                Type: STRING
+              - Name: external_long_material_number
+                Type: STRING
+              - Name: material_version_number
+                Type: STRING
+              - Name: external_material_number_plus_version_for_selection
+                Type: STRING
+              - Name: nato_stock_number
+                Type: STRING
+              - Name: internal_charactieristic_number_for_color_characteristics
+                Type: STRING
+              - Name: internal_char_number_for_characteristics_for_main_sizes
+                Type: STRING
+              - Name: internal_char_number_for_characteristics_for_second_sizes
+                Type: STRING
+              - Name: characteristic_value_for_colors_of_variants
+                Type: STRING
+              - Name: characteristic_value_for_main_sizes_of_variants
+                Type: STRING
+              - Name: characteristic_value_for_second_size_for_variants
+                Type: STRING
+              - Name: characteristic_value_for_evaluation_purposes
+                Type: STRING
+              - Name: care_codes_such_as_washing_code_ironing_code_etc
+                Type: STRING
+              - Name: brand
+                Type: STRING
+              - Name: fiber_code_for_textiles_component_1
+                Type: STRING
+              - Name: percentage_share_of_fiber_component_1
+                Type: DECIMAL
+              - Name: fiber_code_for_textiles_component_2
+                Type: STRING
+              - Name: percentage_share_of_fiber_component_2
+                Type: DECIMAL
+              - Name: fiber_code_for_textiles_component_3
+                Type: STRING
+              - Name: percentage_share_of_fiber_component_3
+                Type: DECIMAL
+              - Name: fiber_code_for_textiles_component_4
+                Type: STRING
+              - Name: percentage_share_of_fiber_component_4
+                Type: DECIMAL
+              - Name: fiber_code_for_textiles_component_5
+                Type: STRING
+              - Name: percentage_share_of_fiber_component_5
+                Type: DECIMAL
+              - Name: material_group_hierarchy_level_1
+                Type: STRING
+              - Name: material_group_hierarchy_level_2
+                Type: STRING
+              - Name: material_group_hierarchy_level_3
+                Type: STRING
+              - Name: material_group_hierarchy_level_4
+                Type: STRING
+              - Name: fashion_grade
+                Type: STRING
+              - Name: odq_change_mode
+                Type: STRING
+              - Name: odq_counter
+                Type: DECIMAL
+              - Name: dm_record_start_date
+                Type: DATETIME
+              - Name: dm_record_end_date
+                Type: DATETIME
+              - Name: dm_is_current
+                Type: STRING
+      LogicalTableMap:
+        860359d6-c464-4a4d-a784-2df9994699f0
+        Alias: !Ref QsDataSetName4
+          DataTransforms:
+            - ProjectOperation:
+                ProjectedColumns:
+                  - client
+                  - material_number
+                  - created_on
+                  - object_creator_name
+                  - date_of_last_change
+                  - name_of_person_who_changed_object
+                  - maintenance_status_of_complete_material
+                  - maintenance_status
+                  - flag_material_for_deletion_at_client_level
+                  - material_type
+                  - industry_sector
+                  - material_group
+                  - old_material_number
+                  - base_unit_of_measure
+                  - purchase_order_unit_of_measure
+                  - document_number_without_document_management_system
+                  - document_type_without_document_management_system
+                  - document_version_without_document_management_system
+                  - page_format_of_document_without_document_management_system
+                  - document_change_number_without_document_management_system
+                  - page_number_of_document_without_document_management_system
+                  - number_of_sheets_without_document_management_system
+                  - production_or_inspection_memo
+                  - page_format_of_production_memo
+                  - size_or_dimensions
+                  - basic_material
+                  - industry_standard_description_such_as_ansi_or_iso
+                  - laboratory_or_design_office
+                  - purchasing_value_key
+                  - item_gross_weight
+                  - net_weight_of_the_item
+                  - weight_unit
+                  - item_volume
+                  - volume_unit
+                  - container_requirements
+                  - storage_conditions
+                  - temperature_conditions_indicator
+                  - low_level_code
+                  - transportation_group
+                  - hazardous_material_number
+                  - division
+                  - sold_to_party
+                  - european_article_number_ean_obsolete
+                  - number_of_gr_or_gi_slips_to_be_printed
+                  - procurement_rule
+                  - source_of_supply
+                  - season_category
+                  - label_type
+                  - label_form
+                  - disposal_type
+                  - international_article_number_ean_upc
+                  - category_of_international_article_number_ean
+                  - length
+                  - width
+                  - height
+                  - unit_of_dimension_for_length_or_width_or_height
+                  - product_hierarchy
+                  - stock_transfer_net_change_costing
+                  - cad_indicator
+                  - qm_in_procurement_is_active
+                  - allowed_packaging_weight
+                  - unit_of_weight_allowed_packaging_weight
+                  - allowed_packaging_volume
+                  - volume_unit_allowed_packaging_volume
+                  - excess_weight_tolerance_for_handling_unit
+                  - excess_volume_tolerance_of_the_handling_unit
+                  - variable_purchase_order_unit_active
+                  - revision_level_has_been_assigned_to_the_material
+                  - configurable_material
+                  - batch_management_requirement_indicator
+                  - packaging_material_type
+                  - maximum_level_by_volume
+                  - stacking_factor
+                  - material_group_packaging_materials
+                  - authorization_group
+                  - valid_from_date
+                  - deletion_date
+                  - season_year
+                  - price_band_category
+                  - empties_bill_of_material
+                  - external_material_group
+                  - cross_plant_configurable_material
+                  - material_category
+                  - material_co_product_indicator
+                  - material_follow_up_material_indicator
+                  - pricing_reference_material
+                  - cross_plant_material_status
+                  - cross_distribution_chain_material_status
+                  - date_from_which_the_cross_plant_material_status_is_valid
+                  - date_from_which_the_x_distr_chain_material_status_is_valid
+                  - tax_classification_of_the_material
+                  - catalog_profile
+                  - minimum_remaining_shelf_life
+                  - total_shelf_life
+                  - storage_percentage
+                  - content_unit
+                  - net_contents
+                  - comparison_price_unit
+                  - is_r_labeling_material_grouping_deactivated
+                  - gross_contents
+                  - quantity_conversion_method
+                  - internal_object_number
+                  - environmentally_relevant
+                  - product_allocation_determination_procedure
+                  - pricing_profile_for_variants
+                  - material_qualifies_for_discount_in_kind
+                  - manufacturer_part_number
+                  - manufacturer_number
+                  - number_of_firms_own_internal_inventory_managed_material
+                  - mfr_part_profile
+                  - units_of_measure_usage
+                  - rollout_in_a_season
+                  - dangerous_goods_indicator_profile
+                  - highly_viscous_indicator
+                  - in_bulk_or_liquid_indicator
+                  - level_of_explicitness_for_serial_number
+                  - packaging_material_is_closed_packaging
+                  - approved_batch_record_required
+                  - assign_effectivity_parameter_values_or__override_change_numbers
+                  - material_completion_level
+                  - period_indicator_for_shelf_life_expiration_date
+                  - rounding_rule_for_calculation_of_sled
+                  - product_composition_printed_on_packaging_indicator
+                  - general_item_category_group
+                  - generic_material_with_logistical_variants
+                  - material_is_activated_for_cw
+                  - valuation_unit_of_measure
+                  - tolerance_group_for_cwm
+                  - checkbox
+                  - base_unit_of_measure_cwm
+                  - external_long_material_number
+                  - material_version_number
+                  - external_material_number_plus_version_for_selection
+                  - nato_stock_number
+                  - internal_charactieristic_number_for_color_characteristics
+                  - internal_char_number_for_characteristics_for_main_sizes
+                  - internal_char_number_for_characteristics_for_second_sizes
+                  - characteristic_value_for_colors_of_variants
+                  - characteristic_value_for_main_sizes_of_variants
+                  - characteristic_value_for_second_size_for_variants
+                  - characteristic_value_for_evaluation_purposes
+                  - care_codes_such_as_washing_code_ironing_code_etc
+                  - brand
+                  - fiber_code_for_textiles_component_1
+                  - percentage_share_of_fiber_component_1
+                  - fiber_code_for_textiles_component_2
+                  - percentage_share_of_fiber_component_2
+                  - fiber_code_for_textiles_component_3
+                  - percentage_share_of_fiber_component_3
+                  - fiber_code_for_textiles_component_4
+                  - percentage_share_of_fiber_component_4
+                  - fiber_code_for_textiles_component_5
+                  - percentage_share_of_fiber_component_5
+                  - material_group_hierarchy_level_1
+                  - material_group_hierarchy_level_2
+                  - material_group_hierarchy_level_3
+                  - material_group_hierarchy_level_4
+                  - fashion_grade
+                  - odq_change_mode
+                  - odq_counter
+                  - dm_record_start_date
+                  - dm_record_end_date
+                  - dm_is_current- 
+          Source:
+            PhysicalTableId: b6a49e7e-128e-4ee7-9a99-546a66596aed
+      OutputColumns:
+        - Name: client
+                Type: STRING
+              - Name: material_number
+                Type: STRING
+              - Name: created_on
+                Type: DATETIME
+              - Name: object_creator_name
+                Type: STRING
+              - Name: date_of_last_change
+                Type: DATETIME
+              - Name: name_of_person_who_changed_object
+                Type: STRING
+              - Name: maintenance_status_of_complete_material
+                Type: STRING
+              - Name: maintenance_status
+                Type: STRING
+              - Name: flag_material_for_deletion_at_client_level
+                Type: STRING
+              - Name: material_type
+                Type: STRING
+              - Name: industry_sector
+                Type: STRING
+              - Name: material_group
+                Type: STRING
+              - Name: old_material_number
+                Type: STRING
+              - Name: base_unit_of_measure
+                Type: STRING
+              - Name: purchase_order_unit_of_measure
+                Type: STRING
+              - Name: document_number_without_document_management_system
+                Type: STRING
+              - Name: document_type_without_document_management_system
+                Type: STRING
+              - Name: document_version_without_document_management_system
+                Type: STRING
+              - Name: page_format_of_document_without_document_management_system
+                Type: STRING
+              - Name: document_change_number_without_document_management_system
+                Type: STRING
+              - Name: page_number_of_document_without_document_management_system
+                Type: STRING
+              - Name: number_of_sheets_without_document_management_system
+                Type: INTEGER
+              - Name: production_or_inspection_memo
+                Type: STRING
+              - Name: page_format_of_production_memo
+                Type: STRING
+              - Name: size_or_dimensions
+                Type: STRING
+              - Name: basic_material
+                Type: STRING
+              - Name: industry_standard_description_such_as_ansi_or_iso
+                Type: STRING
+              - Name: laboratory_or_design_office
+                Type: STRING
+              - Name: purchasing_value_key
+                Type: STRING
+              - Name: item_gross_weight
+                Type: DECIMAL
+              - Name: net_weight_of_the_item
+                Type: DECIMAL
+              - Name: weight_unit
+                Type: STRING
+              - Name: item_volume
+                Type: DECIMAL
+              - Name: volume_unit
+                Type: STRING
+              - Name: container_requirements
+                Type: STRING
+              - Name: storage_conditions
+                Type: STRING
+              - Name: temperature_conditions_indicator
+                Type: STRING
+              - Name: low_level_code
+                Type: STRING
+              - Name: transportation_group
+                Type: STRING
+              - Name: hazardous_material_number
+                Type: STRING
+              - Name: division
+                Type: STRING
+              - Name: sold_to_party
+                Type: STRING
+              - Name: european_article_number_ean_obsolete
+                Type: STRING
+              - Name: number_of_gr_or_gi_slips_to_be_printed
+                Type: DECIMAL
+              - Name: procurement_rule
+                Type: STRING
+              - Name: source_of_supply
+                Type: STRING
+              - Name: season_category
+                Type: STRING
+              - Name: label_type
+                Type: STRING
+              - Name: label_form
+                Type: STRING
+              - Name: disposal_type
+                Type: STRING
+              - Name: international_article_number_ean_upc
+                Type: STRING
+              - Name: category_of_international_article_number_ean
+                Type: STRING
+              - Name: length
+                Type: DECIMAL
+              - Name: width
+                Type: DECIMAL
+              - Name: height
+                Type: DECIMAL
+              - Name: unit_of_dimension_for_length_or_width_or_height
+                Type: STRING
+              - Name: product_hierarchy
+                Type: STRING
+              - Name: stock_transfer_net_change_costing
+                Type: STRING
+              - Name: cad_indicator
+                Type: STRING
+              - Name: qm_in_procurement_is_active
+                Type: STRING
+              - Name: allowed_packaging_weight
+                Type: DECIMAL
+              - Name: unit_of_weight_allowed_packaging_weight
+                Type: STRING
+              - Name: allowed_packaging_volume
+                Type: DECIMAL
+              - Name: volume_unit_allowed_packaging_volume
+                Type: STRING
+              - Name: excess_weight_tolerance_for_handling_unit
+                Type: DECIMAL
+              - Name: excess_volume_tolerance_of_the_handling_unit
+                Type: DECIMAL
+              - Name: variable_purchase_order_unit_active
+                Type: STRING
+              - Name: revision_level_has_been_assigned_to_the_material
+                Type: STRING
+              - Name: configurable_material
+                Type: STRING
+              - Name: batch_management_requirement_indicator
+                Type: STRING
+              - Name: packaging_material_type
+                Type: STRING
+              - Name: maximum_level_by_volume
+                Type: DECIMAL
+              - Name: stacking_factor
+                Type: INTEGER
+              - Name: material_group_packaging_materials
+                Type: STRING
+              - Name: authorization_group
+                Type: STRING
+              - Name: valid_from_date
+                Type: DATETIME
+              - Name: deletion_date
+                Type: DATETIME
+              - Name: season_year
+                Type: STRING
+              - Name: price_band_category
+                Type: STRING
+              - Name: empties_bill_of_material
+                Type: STRING
+              - Name: external_material_group
+                Type: STRING
+              - Name: cross_plant_configurable_material
+                Type: STRING
+              - Name: material_category
+                Type: STRING
+              - Name: material_co_product_indicator
+                Type: STRING
+              - Name: material_follow_up_material_indicator
+                Type: STRING
+              - Name: pricing_reference_material
+                Type: STRING
+              - Name: cross_plant_material_status
+                Type: STRING
+              - Name: cross_distribution_chain_material_status
+                Type: STRING
+              - Name: date_from_which_the_cross_plant_material_status_is_valid
+                Type: DATETIME
+              - Name: date_from_which_the_x_distr_chain_material_status_is_valid
+                Type: DATETIME
+              - Name: tax_classification_of_the_material
+                Type: STRING
+              - Name: catalog_profile
+                Type: STRING
+              - Name: minimum_remaining_shelf_life
+                Type: DECIMAL
+              - Name: total_shelf_life
+                Type: DECIMAL
+              - Name: storage_percentage
+                Type: DECIMAL
+              - Name: content_unit
+                Type: STRING
+              - Name: net_contents
+                Type: DECIMAL
+              - Name: comparison_price_unit
+                Type: DECIMAL
+              - Name: is_r_labeling_material_grouping_deactivated
+                Type: STRING
+              - Name: gross_contents
+                Type: DECIMAL
+              - Name: quantity_conversion_method
+                Type: STRING
+              - Name: internal_object_number
+                Type: STRING
+              - Name: environmentally_relevant
+                Type: STRING
+              - Name: product_allocation_determination_procedure
+                Type: STRING
+              - Name: pricing_profile_for_variants
+                Type: STRING
+              - Name: material_qualifies_for_discount_in_kind
+                Type: STRING
+              - Name: manufacturer_part_number
+                Type: STRING
+              - Name: manufacturer_number
+                Type: STRING
+              - Name: number_of_firms_own_internal_inventory_managed_material
+                Type: STRING
+              - Name: mfr_part_profile
+                Type: STRING
+              - Name: units_of_measure_usage
+                Type: STRING
+              - Name: rollout_in_a_season
+                Type: STRING
+              - Name: dangerous_goods_indicator_profile
+                Type: STRING
+              - Name: highly_viscous_indicator
+                Type: STRING
+              - Name: in_bulk_or_liquid_indicator
+                Type: STRING
+              - Name: level_of_explicitness_for_serial_number
+                Type: STRING
+              - Name: packaging_material_is_closed_packaging
+                Type: STRING
+              - Name: approved_batch_record_required
+                Type: STRING
+              - Name: assign_effectivity_parameter_values_or__override_change_numbers
+                Type: STRING
+              - Name: material_completion_level
+                Type: STRING
+              - Name: period_indicator_for_shelf_life_expiration_date
+                Type: STRING
+              - Name: rounding_rule_for_calculation_of_sled
+                Type: STRING
+              - Name: product_composition_printed_on_packaging_indicator
+                Type: STRING
+              - Name: general_item_category_group
+                Type: STRING
+              - Name: generic_material_with_logistical_variants
+                Type: STRING
+              - Name: material_is_activated_for_cw
+                Type: STRING
+              - Name: valuation_unit_of_measure
+                Type: STRING
+              - Name: tolerance_group_for_cwm
+                Type: STRING
+              - Name: checkbox
+                Type: STRING
+              - Name: base_unit_of_measure_cwm
+                Type: STRING
+              - Name: external_long_material_number
+                Type: STRING
+              - Name: material_version_number
+                Type: STRING
+              - Name: external_material_number_plus_version_for_selection
+                Type: STRING
+              - Name: nato_stock_number
+                Type: STRING
+              - Name: internal_charactieristic_number_for_color_characteristics
+                Type: STRING
+              - Name: internal_char_number_for_characteristics_for_main_sizes
+                Type: STRING
+              - Name: internal_char_number_for_characteristics_for_second_sizes
+                Type: STRING
+              - Name: characteristic_value_for_colors_of_variants
+                Type: STRING
+              - Name: characteristic_value_for_main_sizes_of_variants
+                Type: STRING
+              - Name: characteristic_value_for_second_size_for_variants
+                Type: STRING
+              - Name: characteristic_value_for_evaluation_purposes
+                Type: STRING
+              - Name: care_codes_such_as_washing_code_ironing_code_etc
+                Type: STRING
+              - Name: brand
+                Type: STRING
+              - Name: fiber_code_for_textiles_component_1
+                Type: STRING
+              - Name: percentage_share_of_fiber_component_1
+                Type: DECIMAL
+              - Name: fiber_code_for_textiles_component_2
+                Type: STRING
+              - Name: percentage_share_of_fiber_component_2
+                Type: DECIMAL
+              - Name: fiber_code_for_textiles_component_3
+                Type: STRING
+              - Name: percentage_share_of_fiber_component_3
+                Type: DECIMAL
+              - Name: fiber_code_for_textiles_component_4
+                Type: STRING
+              - Name: percentage_share_of_fiber_component_4
+                Type: DECIMAL
+              - Name: fiber_code_for_textiles_component_5
+                Type: STRING
+              - Name: percentage_share_of_fiber_component_5
+                Type: DECIMAL
+              - Name: material_group_hierarchy_level_1
+                Type: STRING
+              - Name: material_group_hierarchy_level_2
+                Type: STRING
+              - Name: material_group_hierarchy_level_3
+                Type: STRING
+              - Name: material_group_hierarchy_level_4
+                Type: STRING
+              - Name: fashion_grade
+                Type: STRING
+              - Name: odq_change_mode
+                Type: STRING
+              - Name: odq_counter
+                Type: DECIMAL
+              - Name: dm_record_start_date
+                Type: DATETIME
+              - Name: dm_record_end_date
+                Type: DATETIME
+              - Name: dm_is_current
+                Type: STRING
+            ImportMode: DIRECT_QUERY
+                          
+  SalesDeliveryHeaderLatestDataSet:
+    Type: AWS::QuickSight::DataSet
+    Properties:
+      AwsAccountId: !Ref AWS::AccountId
+      DataSetId: 90a6adf6-2755-4e13-ac7c-018b3d322b7d
+      Name: !Ref QsDataSetName5
+      PhysicalTableMap:
+        caa23af6-7fdc-4608-876a-e15d9d5e7d22:
+          RelationalTable:
+            DataSourceArn: !Ref QsDataSourceArn
+            Schema: !Ref RedShiftSchema1
+            Name: !Ref QsDataSetName5
+            InputColumns:
+              - Name: cncl_data_recd_ind
+                Type: STRING
+              - Name: sls_dstrbn_document_nbr
+                Type: STRING
+              - Name: unloading_point
+                Type: STRING
+              - Name: total_weight
+                Type: DECIMAL
+              - Name: company_code
+                Type: STRING
+              - Name: sales_district
+                Type: STRING
+              - Name: record_create_date
+                Type: DATETIME
+              - Name: billing_block
+                Type: STRING
+              - Name: weight_unit
+                Type: STRING
+              - Name: incoterms_part_1
+                Type: STRING
+              - Name: incoterms_part_2
+                Type: STRING
+              - Name: customer_group
+                Type: STRING
+              - Name: sold_to_party
+                Type: STRING
+              - Name: ship_to_party
+                Type: STRING
+              - Name: delivery_type
+                Type: STRING
+              - Name: delivery_date
+                Type: DATETIME
+              - Name: vendor_account_number
+                Type: STRING
+              - Name: delivery_block__document_header
+                Type: STRING
+              - Name: loading_point
+                Type: STRING
+              - Name: net_weight
+                Type: DECIMAL
+              - Name: bill_to_party
+                Type: STRING
+              - Name: payer
+                Type: STRING
+              - Name: forwarding_agent
+                Type: STRING
+              - Name: sales_employee
+                Type: STRING
+              - Name: route
+                Type: STRING
+              - Name: sd_document_category
+                Type: STRING
+              - Name: sales_organization
+                Type: STRING
+              - Name: volume_unit
+                Type: STRING
+              - Name: volume
+                Type: DECIMAL
+              - Name: shipping_point_receiving_point
+                Type: STRING
+              - Name: planned_goods_movement_date
+                Type: DATETIME
+              - Name: actual_goods_movement_date
+                Type: DATETIME
+              - Name: num_of_deliveries
+                Type: DECIMAL
+              - Name: num_of_packages_per_delivery
+                Type: DECIMAL
+              - Name: fiscal_year_variant
+                Type: STRING
+              - Name: actual_gi_delay_gi_date_for_delivery
+                Type: DECIMAL
+              - Name: odq_change_mode
+                Type: STRING
+              - Name: odq_counter
+                Type: DECIMAL
+              - Name: dm_record_start_date
+                Type: DATETIME
+              - Name: dm_record_end_date
+                Type: DATETIME
+              - Name: dm_is_current
+                Type: STRING
+      LogicalTableMap:
+        46d13dbd-6629-4cfc-b29a-7a98022cccee
+        Alias: !Ref QsDataSetName5
+          DataTransforms:
+            - ProjectOperation:
+                ProjectedColumns:
+                  - cncl_data_recd_ind
+                  - sls_dstrbn_document_nbr
+                  - unloading_point
+                  - total_weight
+                  - company_code
+                  - sales_district
+                  - record_create_date
+                  - billing_block
+                  - weight_unit
+                  - incoterms_part_1
+                  - incoterms_part_2
+                  - customer_group
+                  - sold_to_party
+                  - ship_to_party
+                  - delivery_type
+                  - delivery_date
+                  - vendor_account_number
+                  - delivery_block__document_header
+                  - loading_point
+                  - net_weight
+                  - bill_to_party
+                  - payer
+                  - forwarding_agent
+                  - sales_employee
+                  - route
+                  - sd_document_category
+                  - sales_organization
+                  - volume_unit
+                  - volume
+                  - shipping_point_receiving_point
+                  - planned_goods_movement_date
+                  - actual_goods_movement_date
+                  - num_of_deliveries
+                  - num_of_packages_per_delivery
+                  - fiscal_year_variant
+                  - actual_gi_delay_gi_date_for_delivery
+                  - odq_change_mode
+                  - odq_counter
+                  - dm_record_start_date
+                  - dm_record_end_date
+                  - dm_is_current
+          Source:
+            PhysicalTableId: caa23af6-7fdc-4608-876a-e15d9d5e7d22
+      OutputColumns:
+        - Name: cncl_data_recd_ind
+          Type: STRING
+        - Name: sls_dstrbn_document_nbr
+          Type: STRING
+        - Name: unloading_point
+          Type: STRING
+        - Name: total_weight
+          Type: DECIMAL
+        - Name: company_code
+          Type: STRING
+        - Name: sales_district
+          Type: STRING
+        - Name: record_create_date
+          Type: DATETIME
+        - Name: billing_block
+          Type: STRING
+        - Name: weight_unit
+          Type: STRING
+        - Name: incoterms_part_1
+          Type: STRING
+        - Name: incoterms_part_2
+          Type: STRING
+        - Name: customer_group
+          Type: STRING
+        - Name: sold_to_party
+          Type: STRING
+        - Name: ship_to_party
+          Type: STRING
+        - Name: delivery_type
+          Type: STRING
+        - Name: delivery_date
+          Type: DATETIME
+        - Name: vendor_account_number
+          Type: STRING
+        - Name: delivery_block__document_header
+          Type: STRING
+        - Name: loading_point
+          Type: STRING
+        - Name: net_weight
+          Type: DECIMAL
+        - Name: bill_to_party
+          Type: STRING
+        - Name: payer
+          Type: STRING
+        - Name: forwarding_agent
+          Type: STRING
+        - Name: sales_employee
+          Type: STRING
+        - Name: route
+          Type: STRING
+        - Name: sd_document_category
+          Type: STRING
+        - Name: sales_organization
+          Type: STRING
+        - Name: volume_unit
+          Type: STRING
+        - Name: volume
+          Type: DECIMAL
+        - Name: shipping_point_receiving_point
+          Type: STRING
+        - Name: planned_goods_movement_date
+          Type: DATETIME
+        - Name: actual_goods_movement_date
+          Type: DATETIME
+        - Name: num_of_deliveries
+          Type: DECIMAL
+        - Name: num_of_packages_per_delivery
+          Type: DECIMAL
+        - Name: fiscal_year_variant
+          Type: STRING
+        - Name: actual_gi_delay_gi_date_for_delivery
+          Type: DECIMAL
+        - Name: odq_change_mode
+          Type: STRING
+        - Name: odq_counter
+          Type: DECIMAL
+        - Name: dm_record_start_date
+          Type: DATETIME
+        - Name: dm_record_end_date
+          Type: DATETIME
+        - Name: dm_is_current
+          Type: STRING
+      ImportMode: DIRECT_QUERY
+      

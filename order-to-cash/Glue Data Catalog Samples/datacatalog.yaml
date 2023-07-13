@@ -1,0 +1,2424 @@
+AWSTemplateFormatVersion: '2010-09-09'
+# Sample CloudFormation template in YAML to demonstrate creating a database and a tables for SAP accelerators
+#
+# Parameters substituted in the Resources section
+# These parameters are names of the resources created in the Data Catalog
+Parameters:
+  DataBucketName:
+      Type: String
+      Description: S3 bucket where data is being stored
+  CFNDatabaseName:
+      Type: String
+      Description:  Name of Glue Database you wish to create
+      Default: sap-accelerators
+  CFNTablePrefixName:
+    Type: String
+    Default: otc
+  CFNTableName1:
+    Type: String
+    Default: 2lis_11_vahdr
+  CFNTableName2:
+    Type: String
+    Default: 2lis_11_vaitm
+  CFNTableName3:
+    Type: String
+    Default: 2lis_12_vchdr
+  CFNTableName4:
+    Type: String
+    Default: 2lis_12_vcitm
+  CFNTableName5:
+    Type: String
+    Default: 2lis_13_vdhdr
+  CFNTableName6:
+    Type: String
+    Default: 2lis_13_vditm
+  CFNTableName7:
+    Type: String
+    Default: customer_attr
+  CFNTableName8:
+    Type: String
+    Default: material_attr    
+# Resources to create metadata in the Data Catalog
+Resources:
+# Create an AWS Glue database
+  CFNDatabaseAccelerator:
+    Type: AWS::Glue::Database
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseInput:
+        Name: !Ref CFNDatabaseName  
+        Description: Database to hold tables for SAP LIS data
+###
+# Create an AWS Glue table
+  CFNTableVAHDR:
+     # Creating the table waits for the database to be created
+    DependsOn: CFNDatabaseAccelerator
+    Type: AWS::Glue::Table
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseName: !Ref CFNDatabaseName
+      TableInput:
+        Name: !Ref CFNTableName1
+        Description: Datasource from 2LIS-11-VAHDR
+        TableType: EXTERNAL_TABLE
+        Parameters: {
+    "classification": "JSON"
+       }
+        StorageDescriptor:
+          OutputFormat: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat
+          Columns:
+          - Name: ROCANCEL
+            Type: string
+            Comment: Indicator- Cancel Data Record
+          - Name: VBELN
+            Type: string
+            Comment: Sales and Distribution Document Number
+          - Name: ANGDT
+            Type: string
+            Comment: Quotation/Inquiry is Valid From
+          - Name: AUART
+            Type: string
+            Comment: Sales Document Type
+          - Name: AUGRU
+            Type: string
+            Comment: Order Reason (Reason for the Business Transaction)
+          - Name: BNDDT
+            Type: string
+            Comment: Date Until Which Bid/Quotation is Binding (Valid-To Date)
+          - Name: BUKRS
+            Type: string
+            Comment: Company Code
+          - Name: ERDAT
+            Type: string
+            Comment: Date on which the record was created
+          - Name: FAKSK
+            Type: string
+            Comment: Billing Block in SD Document
+          - Name: HWAER
+            Type: string
+            Comment: Local Currency
+          - Name: KUNNR
+            Type: string
+            Comment: Sold-to Party
+          - Name: KURST
+            Type: string
+            Comment: Exchange Rate Type
+          - Name: KVGR1
+            Type: string
+            Comment: Customer Group 1
+          - Name: KVGR2
+            Type: string
+            Comment: Customer Group 2
+          - Name: KVGR3
+            Type: string
+            Comment: Customer Group 3
+          - Name: KVGR4
+            Type: string
+            Comment: Customer Group 4
+          - Name: KVGR5
+            Type: string
+            Comment: Customer Group 5
+          - Name: LIFSK
+            Type: string
+            Comment: Delivery Block (Document Header)
+          - Name: PVRTNR
+            Type: bigint
+            Comment: Sales employee
+          - Name: STWAE
+            Type: string
+            Comment: Statistics Currency
+          - Name: VBTYP
+            Type: string
+            Comment: SD Document Category
+          - Name: VDATU
+            Type: string
+            Comment: Requested Delivery Date
+          - Name: VKBUR
+            Type: string
+            Comment: Sales office
+          - Name: VKGRP
+            Type: string
+            Comment: Sales group
+          - Name: VKORG
+            Type: string
+            Comment: Sales Organization
+          - Name: VTWEG
+            Type: string
+            Comment: Distribution Channel
+          - Name: WAERK
+            Type: string
+            Comment: SD Document Currency
+          - Name: SPARA
+            Type: string
+            Comment: Division for order header
+          - Name: VGTYP_AK
+            Type: string
+            Comment: Sales Document Category of Reference Doc. in Order Header
+          - Name: ANZAU
+            Type: double
+            Comment: Number of Orders
+          - Name: PERIV
+            Type: string
+            Comment: Fiscal Year Variant
+          - Name: ODQ_CHANGEMODE
+            Type: string
+            Comment: ODQ Change Mode
+          - Name: ODQ_ENTITYCNTR
+            Type: bigint
+            Comment: ODQ Counter
+          InputFormat: org.apache.hadoop.mapred.TextInputFormat
+          Location: 
+            !Join 
+            - ''
+            - - 's3://'
+              - !Ref 'DataBucketName'
+              - '/cf_'
+              - !Ref 'CFNTableName1'
+          SerdeInfo:
+            Parameters:
+              skip.header.line.count: 0       
+            SerializationLibrary: org.openx.data.jsonserde.JsonSerDe
+
+  CFNTableVAITM:
+    # Creating the table waits for the database to be created
+    DependsOn: CFNDatabaseAccelerator
+    Type: AWS::Glue::Table
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseName: !Ref CFNDatabaseName
+      TableInput:
+        Name: !Ref CFNTableName2
+        Description: Datasource from 2LIS-11-VAITM
+        TableType: EXTERNAL_TABLE
+        Parameters: {
+    "classification": "JSON"
+       }
+        StorageDescriptor:
+          OutputFormat: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat
+          Columns:
+          - Name: ROCANCEL
+            Type: string
+            Comment: Indicator- Cancel Data Record
+          - Name: VBELN
+            Type: string
+            Comment: Sales and Distribution Document Number
+          - Name: ABSTA
+            Type: string
+            Comment: Rejection Status (Item)
+          - Name: POSNR
+            Type: bigint
+            Comment: Item number of the SD document
+          - Name: UVALL
+            Type: string
+            Comment: Incompletion Status (Item)
+          - Name: UVFAK
+            Type: string
+            Comment: Billing Incompletion Status (Item)
+          - Name: UVPRS
+            Type: string
+            Comment: Pricing Incompletion Status (Item)
+          - Name: UVVLK
+            Type: string
+            Comment: Delivery Incompletion Status (Item)
+          - Name: ANGDT
+            Type: string
+            Comment: Quotation/Inquiry is Valid From
+          - Name: AUART
+            Type: string
+            Comment: Sales Document Type
+          - Name: AUGRU
+            Type: string
+            Comment: Order Reason (Reason for the Business Transaction)
+          - Name: BNDDT
+            Type: string
+            Comment: Date Until Which Bid/Quotation is Binding (Valid-To Date)
+          - Name: BUKRS
+            Type: string
+            Comment: Company Code
+          - Name: FAKSK
+            Type: string
+            Comment: Billing Block in SD Document
+          - Name: HWAER
+            Type: string
+            Comment: Local Currency
+          - Name: KUNNR
+            Type: string
+            Comment: Sold-to Party
+          - Name: KURST
+            Type: string
+            Comment: Exchange Rate Type
+          - Name: KVGR1
+            Type: string
+            Comment: Customer Group 1
+          - Name: KVGR2
+            Type: string
+            Comment: Customer Group 2
+          - Name: KVGR3
+            Type: string
+            Comment: Customer Group 3
+          - Name: KVGR4
+            Type: string
+            Comment: Customer Group 4
+          - Name: KVGR5
+            Type: string
+            Comment: Customer Group 5
+          - Name: LIFSK
+            Type: string
+            Comment: Delivery Block (Document Header)
+          - Name: STWAE
+            Type: string
+            Comment: Statistics Currency
+          - Name: VBTYP
+            Type: string
+            Comment: SD Document Category
+          - Name: VKBUR
+            Type: string
+            Comment: Sales office
+          - Name: VKGRP
+            Type: string
+            Comment: Sales group
+          - Name: VKORG
+            Type: string
+            Comment: Sales Organization
+          - Name: VTWEG
+            Type: string
+            Comment: Distribution Channel
+          - Name: ABGRU
+            Type: string
+            Comment: Reason for Rejection of Sales Documents
+          - Name: AEDAT
+            Type: string
+            Comment: Last Changed On
+          - Name: AWAHR
+            Type: bigint
+            Comment: Order Probability of the Item
+          - Name: BRGEW
+            Type: double
+            Comment: Gross Weight of the Item
+          - Name: BWAPPLNM
+            Type: string
+            Comment: Application Component
+          - Name: BWVORG
+            Type: bigint
+            Comment: SAP BW transaction key
+          - Name: CHARG
+            Type: string
+            Comment: Batch Number
+          - Name: CMKUA
+            Type: double
+            Comment: Credit data exchange rate for requested delivery date
+          - Name: EAN11
+            Type: string
+            Comment: International Article Number (EAN/UPC)
+          - Name: ERDAT
+            Type: string
+            Comment: Date on which the record was created
+          - Name: ERNAM
+            Type: string
+            Comment: Name of Person Responsible for Creating the Object
+          - Name: ERZET
+            Type: string
+            Comment: Entry time
+          - Name: FAKSP
+            Type: string
+            Comment: Billing Block for Item
+          - Name: GEWEI
+            Type: string
+            Comment: Weight Unit
+          - Name: KBMENG
+            Type: double
+            Comment: Cumulative Confirmed Quantity in Sales Unit
+          - Name: KLMENG
+            Type: double
+            Comment: Cumulative Confirmed Quantity in Base Unit
+          - Name: KMEIN
+            Type: string
+            Comment: Condition Unit
+          - Name: KNUMA_AG
+            Type: string
+            Comment: Sales Deal
+          - Name: KPEIN
+            Type: double
+            Comment: Condition Pricing Unit
+          - Name: KWMENG
+            Type: double
+            Comment: Cumulative order quantity in sales units
+          - Name: KZWI1
+            Type: double
+            Comment: Subtotal 1 from Pricing Procedure for Price Element
+          - Name: KZWI2
+            Type: double
+            Comment: Subtotal 2 from Pricing Procedure for Price Element
+          - Name: KZWI3
+            Type: double
+            Comment: Subtotal 3 from Pricing Procedure for Price Element
+          - Name: KZWI4
+            Type: double
+            Comment: Subtotal 4 from Pricing Procedure for Price Element
+          - Name: KZWI5
+            Type: double
+            Comment: Subtotal 5 from Pricing Procedure for Price Element
+          - Name: KZWI6
+            Type: double
+            Comment: Subtotal 6 from Pricing Procedure for Price Element
+          - Name: LFMNG
+            Type: double
+            Comment: Minimum Delivery Quantity in Delivery Note Processing
+          - Name: LGORT
+            Type: string
+            Comment: Storage location
+          - Name: LSMENG
+            Type: double
+            Comment: Cumulative Required Delivery Qty (All Dlv-Relev.Sched.Lines)
+          - Name: MATKL
+            Type: string
+            Comment: Material Group
+          - Name: MATNR
+            Type: string
+            Comment: Material Number
+          - Name: MATWA
+            Type: string
+            Comment: Material Entered
+          - Name: MEINS
+            Type: string
+            Comment: Base Unit of Measure
+          - Name: MVGR1
+            Type: string
+            Comment: Material Group 1
+          - Name: MVGR2
+            Type: string
+            Comment: Material Group 2
+          - Name: MVGR3
+            Type: string
+            Comment: Material Group 3
+          - Name: MVGR4
+            Type: string
+            Comment: Material Group 4
+          - Name: MVGR5
+            Type: string
+            Comment: Material Group 5
+          - Name: MWSBP
+            Type: double
+            Comment: Tax Amount in Document Currency
+          - Name: NETPR
+            Type: double
+            Comment: Net Price
+          - Name: NETWR
+            Type: double
+            Comment: Net Value of the Order Item in Document Currency
+          - Name: NTGEW
+            Type: double
+            Comment: Net Weight of the Item
+          - Name: PABLA
+            Type: string
+            Comment: Unloading point of the ship-to party
+          - Name: PKUNRE
+            Type: string
+            Comment: Bill-to Party
+          - Name: PKUNRG
+            Type: string
+            Comment: Payer
+          - Name: PKUNWE
+            Type: string
+            Comment: Ship-to Party
+          - Name: PRODH
+            Type: string
+            Comment: Product hierarchy
+          - Name: PSPDNR
+            Type: string
+            Comment: Forwarding Agent
+          - Name: PSTYV
+            Type: string
+            Comment: Sales document item category
+          - Name: PVRTNR
+            Type: bigint
+            Comment: Sales employee
+          - Name: ROUTE
+            Type: string
+            Comment: Route
+          - Name: SOBKZ
+            Type: string
+            Comment: Special Stock Indicator
+          - Name: SPART
+            Type: string
+            Comment: Division
+          - Name: STADAT
+            Type: string
+            Comment: Statistics date
+          - Name: STCUR
+            Type: double
+            Comment: Exchange rate for statistics (Exch.rate at time of creation)
+          - Name: SUGRD
+            Type: string
+            Comment: Reason for material substitution
+          - Name: UEBTK
+            Type: string
+            Comment: Unlimited Overdelivery Allowed
+          - Name: UEBTO
+            Type: double
+            Comment: Overdelivery Tolerance
+          - Name: UMVKN
+            Type: double
+            Comment: Denominator (divisor) for conversion of sales Qty into SKU
+          - Name: UMVKZ
+            Type: double
+            Comment: Numerator (factor) for conversion of sales quantity into SKU
+          - Name: UMZIN
+            Type: double
+            Comment: Factor for Converting Sales Units to Base Units (Target Qty)
+          - Name: UMZIZ
+            Type: double
+            Comment: Factor for Converting Sales Units to Base Units (Target Qty)
+          - Name: UNTTO
+            Type: double
+            Comment: Underdelivery Tolerance
+          - Name: VDATU
+            Type: string
+            Comment: Date of update for statistics updating
+          - Name: VGBEL
+            Type: string
+            Comment: Document number of the reference document
+          - Name: VGPOS
+            Type: bigint
+            Comment: Item number of the reference item
+          - Name: VGTYP
+            Type: string
+            Comment: Document Category of Preceding SD Document
+          - Name: VOLEH
+            Type: string
+            Comment: Volume unit
+          - Name: VOLUM
+            Type: double
+            Comment: Volume of the item
+          - Name: VRKME
+            Type: string
+            Comment: Sales unit
+          - Name: VSTEL
+            Type: string
+            Comment: Shipping Point / Receiving Point
+          - Name: WAERK
+            Type: string
+            Comment: SD Document Currency
+          - Name: WAVWR
+            Type: double
+            Comment: Cost in Document Currency
+          - Name: WERKS
+            Type: string
+            Comment: Plant (Own or External)
+          - Name: ZIEME
+            Type: string
+            Comment: Target Quantity UoM
+          - Name: ZMENG
+            Type: double
+            Comment: Target Quantity in Sales Units
+          - Name: ZWERT
+            Type: double
+            Comment: Target Value for Outline Agreement in Document Currency
+          - Name: BZIRK
+            Type: string
+            Comment: Sales District
+          - Name: FBUDA
+            Type: string
+            Comment: Date on which services are rendered
+          - Name: FKDAT
+            Type: string
+            Comment: Billing Date
+          - Name: INCO1
+            Type: string
+            Comment: Incoterms (Part 1)
+          - Name: INCO2
+            Type: string
+            Comment: Incoterms (Part 2)
+          - Name: KDGRP
+            Type: string
+            Comment: Customer Group
+          - Name: KTGRD
+            Type: string
+            Comment: Account Assignment Group for this Customer
+          - Name: KURSK
+            Type: double
+            Comment: Exchange Rate for Price Determination
+          - Name: KURSK_DAT
+            Type: string
+            Comment: Translation date
+          - Name: PRSDT
+            Type: string
+            Comment: Date for Pricing and Exchange Rate
+          - Name: WAKTION
+            Type: string
+            Comment: Promotion
+          - Name: WMINR
+            Type: string
+            Comment: Product catalog number
+          - Name: WAERK_VBAK
+            Type: string
+            Comment: SD Document Currency
+          - Name: SPARA
+            Type: string
+            Comment: Division for order header
+          - Name: VGTYP_AK
+            Type: string
+            Comment: Sales Document Category of Reference Doc. in Order Header
+          - Name: PS_POSID
+            Type: string
+            Comment: Work Breakdown Structure Element (WBS Element)
+          - Name: ANZAUPO
+            Type: double
+            Comment: Number of Order Items
+          - Name: PERIV
+            Type: string
+            Comment: Fiscal Year Variant
+          - Name: MCEX_APCAMPAIGN
+            Type: string
+            Comment: Campaign of referred sales order item for BW-Extraction
+          - Name: APOPLANNED
+            Type: string
+            Comment: Planning in APO
+          - Name: MCBW_NETPR_AVKM
+            Type: double
+            Comment: BW- Net Price Referring to Sales Quantity for Order Item
+          - Name: ODQ_CHANGEMODE
+            Type: string
+            Comment: ODQ Change Mode
+          - Name: ODQ_ENTITYCNTR
+            Type: double
+            Comment: ODQ Counter
+          InputFormat: org.apache.hadoop.mapred.TextInputFormat
+          Location: 
+            !Join 
+            - ''
+            - - 's3://'
+              - !Ref 'DataBucketName'
+              - '/cf_'
+              - !Ref 'CFNTableName2'
+          SerdeInfo:
+            Parameters:
+              skip.header.line.count: 0       
+            SerializationLibrary: org.openx.data.jsonserde.JsonSerDe    
+
+  CFNTableVCHDR:
+    # Creating the table waits for the database to be created
+    DependsOn: CFNDatabaseAccelerator
+    Type: AWS::Glue::Table
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseName: !Ref CFNDatabaseName
+      TableInput:
+        Name: !Ref CFNTableName3
+        Description: Datasource from 2LIS-12-VCHDR
+        TableType: EXTERNAL_TABLE
+        Parameters: {
+    "classification": "JSON"
+    }
+        StorageDescriptor:
+          OutputFormat: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat
+          Columns:
+          - Name: ROCANCEL
+            Type: string
+            Comment: Indicator- Cancel Data Record
+          - Name: VBELN
+            Type: string
+            Comment: Sales and Distribution Document Number 
+          - Name: ABLAD
+            Type: string
+            Comment: Unloading Point
+          - Name: BTGEW
+            Type: double
+            Comment: Total Weight
+          - Name: BUKRS
+            Type: string
+            Comment: Company Code
+          - Name: BZIRK
+            Type: string
+            Comment: Sales District
+          - Name: ERDAT
+            Type: string
+            Comment: Date on which the record was created
+          - Name: FAKSK
+            Type: string
+            Comment: Billing Block in SD Document
+          - Name: GEWEI
+            Type: string
+            Comment: Weight Unit
+          - Name: INCO1
+            Type: string
+            Comment: Incoterms (Part 1)
+          - Name: INCO2
+            Type: string
+            Comment: Incoterms (Part 2)
+          - Name: KDGRP
+            Type: string
+            Comment: Customer Group
+          - Name: KUNAG
+            Type: string
+            Comment: Sold-to Party
+          - Name: KUNNR
+            Type: string
+            Comment: Ship-to Party
+          - Name: LFART
+            Type: string
+            Comment: Delivery Type
+          - Name: LFDAT
+            Type: string
+            Comment: Delivery Date
+          - Name: LIFNR
+            Type: string
+            Comment: Vendor's account number
+          - Name: LIFSK
+            Type: string
+            Comment: Delivery Block (Document Header)
+          - Name: LSTEL
+            Type: string
+            Comment: Loading Point
+          - Name: NTGEW
+            Type: double
+            Comment: Net weight
+          - Name: PKUNRE
+            Type: string
+            Comment: Bill-to Party
+          - Name: PKUNRG
+            Type: string
+            Comment: Payer
+          - Name: PSPDNR
+            Type: string
+            Comment: Forwarding Agent
+          - Name: PVRTNR
+            Type: bigint
+            Comment: Sales employee
+          - Name: ROUTE
+            Type: string
+            Comment: Route
+          - Name: VBTYP
+            Type: string
+            Comment: SD Document Category
+          - Name: VKORG
+            Type: string
+            Comment: Sales Organization
+          - Name: VOLEH
+            Type: string
+            Comment: Volume unit
+          - Name: VOLUM
+            Type: double
+            Comment: Volume
+          - Name: VSTEL
+            Type: string
+            Comment: Shipping Point / Receiving Point
+          - Name: WADAT
+            Type: string
+            Comment: Planned Goods Movement Date
+          - Name: WADAT_IST
+            Type: string
+            Comment:  Actual Goods Movement Date 
+          - Name: ANZLI
+            Type: double
+            Comment: No of deliveries
+          - Name: MCBW_ANZPK
+            Type: double
+            Comment: Extraction BW- Number of Packages per Delivery
+          - Name: PERIV
+            Type: string
+            Comment:  Fiscal Year Variant 
+          - Name: WA_DELAY_LF
+            Type: double
+            Comment: BW Extraction LE- Actual GI Delay - GI Date for Delivery
+          - Name: ODQ_CHANGEMODE
+            Type: string
+            Comment: ODQ Change Mode
+          - Name: ODQ_ENTITYCNTR
+            Type: bigint
+            Comment: ODQ Counter
+          InputFormat: org.apache.hadoop.mapred.TextInputFormat
+          Location: 
+            !Join 
+            - ''
+            - - 's3://'
+              - !Ref 'DataBucketName'
+              - '/cf_'
+              - !Ref 'CFNTableName3'
+          SerdeInfo:
+            Parameters:
+              skip.header.line.count: 0       
+            SerializationLibrary: org.openx.data.jsonserde.JsonSerDe
+
+  CFNTableVCITM:
+    # Creating the table waits for the database to be created
+    DependsOn: CFNDatabaseAccelerator
+    Type: AWS::Glue::Table
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseName: !Ref CFNDatabaseName
+      TableInput:
+        Name: !Ref CFNTableName4
+        Description: Datasource from 2LIS-12-VCITM
+        TableType: EXTERNAL_TABLE
+        Parameters: {
+    "classification": "JSON"
+        }
+        StorageDescriptor:
+          OutputFormat: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat
+          Columns:
+          - Name: ROCANCEL
+            Type: string
+            Comment: Indicator- Cancel Data Record
+          - Name: VBELN
+            Type: string
+            Comment: Sales and Distribution Document Number
+          - Name: KOQUA
+            Type: string
+            Comment: Confirmation Status of Picking/Putaway
+          - Name: KOSTA
+            Type: string
+            Comment: Picking Status/Putaway Status (Item)
+          - Name: POSNR
+            Type: bigint
+            Comment: Item number of the SD document
+          - Name: WBSTA
+            Type: string
+            Comment: Goods Movement Status (Item)
+          - Name: ABLAD
+            Type: string
+            Comment: Unloading Point
+          - Name: BUKRS
+            Type: string
+            Comment: Company Code
+          - Name: BZIRK
+            Type: string
+            Comment: Sales District
+          - Name: FAKSK
+            Type: string
+            Comment: Billing Block in SD Document
+          - Name: INCO1
+            Type: string
+            Comment: Incoterms (Part 1)
+          - Name: INCO2
+            Type: string
+            Comment: Incoterms (Part 2)
+          - Name: KDGRP
+            Type: string
+            Comment: Customer Group
+          - Name: KUNAG
+            Type: string
+            Comment: Sold-to Party
+          - Name: KUNNR
+            Type: string
+            Comment: Ship-to Party
+          - Name: LFART
+            Type: string
+            Comment: Delivery Type
+          - Name: LFDAT
+            Type: string
+            Comment: Delivery Date
+          - Name: LIFNR
+            Type: string
+            Comment: Vendor's account number
+          - Name: LIFSK
+            Type: string
+            Comment: Delivery Block (Document Header)
+          - Name: LSTEL
+            Type: string
+            Comment: Loading Point
+          - Name: ROUTE
+            Type: string
+            Comment: Route
+          - Name: VBTYP
+            Type: string
+            Comment: SD Document Category
+          - Name: VKORG
+            Type: string
+            Comment: Sales Organization
+          - Name: VSTEL
+            Type: string
+            Comment: Shipping Point / Receiving Point
+          - Name: WADAT
+            Type: string
+            Comment: Planned Goods Movement Date
+          - Name: WADAT_IST
+            Type: string
+            Comment: Actual Goods Movement Date
+          - Name: AEDAT
+            Type: string
+            Comment: Last Changed On
+          - Name: AKTNR
+            Type: string
+            Comment: Promotion
+          - Name: BRGEW
+            Type: double
+            Comment: Gross weight
+          - Name: BWAPPLNM
+            Type: string
+            Comment: Application Component
+          - Name: BWVORG
+            Type: bigint
+            Comment: SAP BW transaction key
+          - Name: CHARG
+            Type: string
+            Comment: Batch Number
+          - Name: EAN11
+            Type: string
+            Comment: International Article Number (EAN/UPC)
+          - Name: ERDAT
+            Type: string
+            Comment: Date on which the record was created
+          - Name: ERNAM
+            Type: string
+            Comment: Name of Person Responsible for Creating the Object
+          - Name: ERZET
+            Type: string
+            Comment: Entry time
+          - Name: FAKSP
+            Type: string
+            Comment: Billing Block
+          - Name: GEWEI
+            Type: string
+            Comment: Weight Unit
+          - Name: GSBER
+            Type: string
+            Comment: Business Area
+          - Name: KOMKZ
+            Type: string
+            Comment: Indicator for picking control
+          - Name: KVGR1
+            Type: string
+            Comment: Customer Group 1
+          - Name: KVGR2
+            Type: string
+            Comment: Customer Group 2
+          - Name: KVGR3
+            Type: string
+            Comment: Customer Group 3
+          - Name: KVGR4
+            Type: string
+            Comment: Customer Group 4
+          - Name: KVGR5
+            Type: string
+            Comment: Customer Group 5
+          - Name: KZVBR
+            Type: string
+            Comment: Consumption posting
+          - Name: LFIMG
+            Type: double
+            Comment: Actual quantity delivered (in sales units)
+          - Name: LGMNG
+            Type: double
+            Comment: Actual quantity delivered in stockkeeping units
+          - Name: LGNUM
+            Type: string
+            Comment: Warehouse Number / Warehouse Complex
+          - Name: LGORT
+            Type: string
+            Comment: Storage location
+          - Name: LGPLA
+            Type: string
+            Comment: Storage Bin
+          - Name: LGTYP
+            Type: string
+            Comment: Storage Type
+          - Name: MATKL
+            Type: string
+            Comment: Material Group
+          - Name: MATNR
+            Type: string
+            Comment: Material Number
+          - Name: MATWA
+            Type: string
+            Comment: Material Entered
+          - Name: MEINS
+            Type: string
+            Comment: Base Unit of Measure
+          - Name: MVGR1
+            Type: string
+            Comment: Material Group 1
+          - Name: MVGR2
+            Type: string
+            Comment: Material Group 2
+          - Name: MVGR3
+            Type: string
+            Comment: Material Group 3
+          - Name: MVGR4
+            Type: string
+            Comment: Material Group 4
+          - Name: MVGR5
+            Type: string
+            Comment: Material Group 5
+          - Name: NTGEW
+            Type: double
+            Comment: Net weight
+          - Name: PKUNRE
+            Type: string
+            Comment: Bill-to Party
+          - Name: PKUNRG
+            Type: string
+            Comment: Payer
+          - Name: POSAR
+            Type: string
+            Comment: Item Type
+          - Name: PRODH
+            Type: string
+            Comment: Product hierarchy
+          - Name: PSPDNR
+            Type: string
+            Comment: Forwarding Agent
+          - Name: PSTYV
+            Type: string
+            Comment: Delivery item category
+          - Name: PVRTNR
+            Type: bigint
+            Comment: Sales employee
+          - Name: STADAT
+            Type: string
+            Comment: Statistics date
+          - Name: UMVKN
+            Type: double
+            Comment: Denominator (divisor) for conversion of sales Qty into SKU
+          - Name: UMVKZ
+            Type: double
+            Comment: Numerator (factor) for conversion of sales quantity into SKU
+          - Name: VBEAF
+            Type: double
+            Comment: Fixed shipping processing time in days (= setup time)
+          - Name: VBEAV
+            Type: double
+            Comment: Variable shipping processing time in days
+          - Name: VDATU
+            Type: string
+            Comment: Date of update for statistics updating
+          - Name: VGBEL
+            Type: string
+            Comment: Document number of the reference document
+          - Name: VGPOS
+            Type: bigint
+            Comment: Item number of the reference item
+          - Name: VGTYP
+            Type: string
+            Comment: SD Document Category
+          - Name: VKBUR
+            Type: string
+            Comment: Sales office
+          - Name: VKGRP
+            Type: string
+            Comment: Sales group
+          - Name: VOLEH
+            Type: string
+            Comment: Volume unit
+          - Name: VOLUM
+            Type: double
+            Comment: Volume
+          - Name: VRKME
+            Type: string
+            Comment: Sales unit
+          - Name: VTWEG
+            Type: string
+            Comment: Distribution Channel
+          - Name: WERKS
+            Type: string
+            Comment: Plant
+          - Name: ANZLIPOS
+            Type: double
+            Comment: Number of delivery items
+          - Name: SPARA
+            Type: string
+            Comment: Division for order header
+          - Name: PS_POSID
+            Type: string
+            Comment: Work Breakdown Structure Element (WBS Element)
+          - Name: PERIV
+            Type: string
+            Comment: Fiscal Year Variant
+          - Name: WA_DELAY_LF
+            Type: double
+            Comment: BW Extraction LE- Actual GI Delay - GI Date for Delivery
+          - Name: MCEX_APCAMPAIGN
+            Type: string
+            Comment: Campaign of referred sales order item for BW-Extraction
+          - Name: ODQ_CHANGEMODE
+            Type: string
+            Comment: ODQ Change Mode
+          - Name: ODQ_ENTITYCNTR
+            Type: bigint
+            Comment: ODQ Counter
+          Location: 
+            !Join 
+            - ''
+            - - 's3://'
+              - !Ref 'DataBucketName'
+              - '/cf_'
+              - !Ref 'CFNTableName4'
+          SerdeInfo:
+            Parameters:
+              skip.header.line.count: 0       
+            SerializationLibrary: org.openx.data.jsonserde.JsonSerDe
+
+  CFNTableVDHDR:
+    # Creating the table waits for the database to be created
+    DependsOn: CFNDatabaseAccelerator
+    Type: AWS::Glue::Table
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseName: !Ref CFNDatabaseName
+      TableInput:
+        Name: !Ref CFNTableName5
+        Description: Datasource from 2LIS-13-VDHDR
+        TableType: EXTERNAL_TABLE
+        Parameters: {
+    "classification": "JSON"
+     }
+        StorageDescriptor:
+          OutputFormat: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat
+          Columns:
+          - Name: ROCANCEL
+            Type: string
+            Comment: Indicator- Cancel Data Record
+          - Name: VBELN
+            Type: string
+            Comment: Sales and Distribution Document Number
+          - Name: BUKRS
+            Type: string
+            Comment: Company Code
+          - Name: BZIRK
+            Type: string
+            Comment: Sales District
+          - Name: ERDAT
+            Type: string
+            Comment: Date on which the record was created
+          - Name: FKART
+            Type: string
+            Comment: Billing Type
+          - Name: FKDAT
+            Type: string
+            Comment: Billing Date
+          - Name: FKTYP
+            Type: string
+            Comment: Billing Category
+          - Name: HWAER
+            Type: string
+            Comment: Local Currency
+          - Name: KDGRP
+            Type: string
+            Comment: Customer Group
+          - Name: KUNAG
+            Type: string
+            Comment: Sold-to Party
+          - Name: KUNRG
+            Type: string
+            Comment: Payer
+          - Name: KURRF
+            Type: double
+            Comment: Exchange Rate for Postings to Financial Accounting
+          - Name: KURST
+            Type: string
+            Comment: Exchange Rate Type
+          - Name: PVRTNR
+            Type: bigint
+            Comment: Sales employee
+          - Name: STWAE
+            Type: string
+            Comment: Statistics Currency
+          - Name: VBTYP
+            Type: string
+            Comment: SD Document Category
+          - Name: VKORG
+            Type: string
+            Comment: Sales Organization
+          - Name: VTWEG
+            Type: string
+            Comment: Distribution Channel
+          - Name: WAERK
+            Type: string
+            Comment: SD Document Currency
+          - Name: ANZFK
+            Type: double
+            Comment: No.of billing docs
+          - Name: PERIV
+            Type: string
+            Comment: Fiscal Year Variant
+          - Name: ODQ_CHANGEMODE
+            Type: string
+            Comment: ODQ Change Mode
+          - Name: ODQ_ENTITYCNTR
+            Type: bigint
+            Comment: ODQ Counter
+          InputFormat: org.apache.hadoop.mapred.TextInputFormat
+          Location: 
+            !Join 
+            - ''
+            - - 's3://'
+              - !Ref 'DataBucketName'
+              - '/cf_'
+              - !Ref 'CFNTableName5'
+          SerdeInfo:
+            Parameters:
+              skip.header.line.count: 0       
+            SerializationLibrary: org.openx.data.jsonserde.JsonSerDe
+
+  CFNTableVDITM:
+    # Creating the table waits for the database to be created
+    DependsOn: CFNDatabaseAccelerator
+    Type: AWS::Glue::Table
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseName: !Ref CFNDatabaseName
+      TableInput:
+        Name: !Ref CFNTableName6
+        Description: Datasource from 2LIS-13-VDITM
+        TableType: EXTERNAL_TABLE
+        Parameters: {
+    "classification": "JSON"
+        }
+        StorageDescriptor:
+          OutputFormat: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat
+          Columns:
+          - Name: ROCANCEL
+            Type: string
+            Comment: Indicator- Cancel Data Record
+          - Name: VBELN
+            Type: string
+            Comment: Sales and Distribution Document Number
+          - Name: POSNR
+            Type: bigint
+            Comment: Item number of the SD document
+          - Name: AEDAT
+            Type: string
+            Comment: Last Changed On
+          - Name: BUKRS
+            Type: string
+            Comment: Company Code
+          - Name: BZIRK
+            Type: string
+            Comment: Sales District
+          - Name: FKART
+            Type: string
+            Comment: Billing Type
+          - Name: FKDAT
+            Type: string
+            Comment: Billing Date
+          - Name: FKTYP
+            Type: string
+            Comment: Billing Category
+          - Name: HWAER
+            Type: string
+            Comment: Local Currency
+          - Name: KDGRP
+            Type: string
+            Comment: Customer Group
+          - Name: KUNAG
+            Type: string
+            Comment: Sold-to Party
+          - Name: KUNRG
+            Type: string
+            Comment: Payer
+          - Name: KURRF
+            Type: double
+            Comment: Exchange Rate for Postings to Financial Accounting
+          - Name: KURST
+            Type: string
+            Comment: Exchange Rate Type
+          - Name: STWAE
+            Type: string
+            Comment: Statistics Currency
+          - Name: VBTYP
+            Type: string
+            Comment: SD Document Category
+          - Name: VKORG
+            Type: string
+            Comment: Sales Organization
+          - Name: VTWEG
+            Type: string
+            Comment: Distribution Channel
+          - Name: WAERK
+            Type: string
+            Comment: SD Document Currency
+          - Name: AKTNR
+            Type: string
+            Comment: Promotion
+          - Name: AUBEL
+            Type: string
+            Comment: Sales Document
+          - Name: AUPOS
+            Type: bigint
+            Comment: Sales Document Item
+          - Name: BONBA
+            Type: double
+            Comment: Rebate Basis 1
+          - Name: BONUS
+            Type: string
+            Comment: Volume rebate group
+          - Name: BRGEW
+            Type: double
+            Comment: Gross weight
+          - Name: BRTWR
+            Type: double
+            Comment: Gross Value of the Billing Item in Document Currency
+          - Name: BWAPPLNM
+            Type: string
+            Comment: Application Component
+          - Name: BWVORG
+            Type: bigint
+            Comment: SAP BW transaction key
+          - Name: CHARG
+            Type: string
+            Comment: Batch Number
+          - Name: EAN11
+            Type: string
+            Comment: International Article Number (EAN/UPC)
+          - Name: ERDAT
+            Type: string
+            Comment: Date on which the record was created
+          - Name: FAREG
+            Type: string
+            Comment: Rule in billing plan/invoice plan
+          - Name: FBUDA
+            Type: string
+            Comment: Date on which services are rendered
+          - Name: FKIMG
+            Type: double
+            Comment: Actual billed quantity
+          - Name: FKLMG
+            Type: double
+            Comment: Billing quantity in stock keeping unit
+          - Name: GEWEI
+            Type: string
+            Comment: Weight Unit
+          - Name: KNUMA_AG
+            Type: string
+            Comment: Sales Deal
+          - Name: KOKRS
+            Type: string
+            Comment: Controlling Area
+          - Name: KOSTL
+            Type: string
+            Comment: Cost Center
+          - Name: KURSK
+            Type: double
+            Comment: Exchange Rate for Price Determination
+          - Name: KURSK_DAT
+            Type: string
+            Comment: Translation date
+          - Name: KVGR1
+            Type: string
+            Comment: Customer Group 1
+          - Name: KVGR2
+            Type: string
+            Comment: Customer Group 2
+          - Name: KVGR3
+            Type: string
+            Comment: Customer Group 3
+          - Name: KVGR4
+            Type: string
+            Comment: Customer Group 4
+          - Name: KVGR5
+            Type: string
+            Comment: Customer Group 5
+          - Name: KZWI1
+            Type: double
+            Comment: Subtotal 1 from Pricing Procedure for Price Element
+          - Name: KZWI2
+            Type: double
+            Comment: Subtotal 2 from Pricing Procedure for Price Element
+          - Name: KZWI3
+            Type: double
+            Comment: Subtotal 3 from Pricing Procedure for Price Element
+          - Name: KZWI4
+            Type: double
+            Comment: Subtotal 4 from Pricing Procedure for Price Element
+          - Name: KZWI5
+            Type: double
+            Comment: Subtotal 5 from Pricing Procedure for Price Element
+          - Name: KZWI6
+            Type: double
+            Comment: Subtotal 6 from Pricing Procedure for Price Element
+          - Name: LGORT
+            Type: string
+            Comment: Storage location
+          - Name: LMENG
+            Type: double
+            Comment: Required quantity for mat.management in stockkeeping units
+          - Name: MATKL
+            Type: string
+            Comment: Material Group
+          - Name: MATNR
+            Type: string
+            Comment: Material Number
+          - Name: MATWA
+            Type: string
+            Comment: Material Entered
+          - Name: MEINS
+            Type: string
+            Comment: Base Unit of Measure
+          - Name: MVGR1
+            Type: string
+            Comment: Material Group 1
+          - Name: MVGR2
+            Type: string
+            Comment: Material Group 2
+          - Name: MVGR3
+            Type: string
+            Comment: Material Group 3
+          - Name: MVGR4
+            Type: string
+            Comment: Material Group 4
+          - Name: MVGR5
+            Type: string
+            Comment: Material Group 5
+          - Name: MWSBP
+            Type: double
+            Comment: Tax Amount in Document Currency
+          - Name: NETWR
+            Type: double
+            Comment: Net Value of Billing item in Document Currency
+          - Name: NTGEW
+            Type: double
+            Comment: Net weight
+          - Name: PKUNRE
+            Type: string
+            Comment: Bill-to Party
+          - Name: PKUNWE
+            Type: string
+            Comment: Ship-to Party
+          - Name: POSAR
+            Type: string
+            Comment: Item Type
+          - Name: PRODH
+            Type: string
+            Comment: Product hierarchy
+          - Name: PROVG
+            Type: string
+            Comment: Commission Group
+          - Name: PRSDT
+            Type: string
+            Comment: Date for Pricing and Exchange Rate
+          - Name: PSTYV
+            Type: string
+            Comment: Sales document item category
+          - Name: PVRTNR
+            Type: bigint
+            Comment: Sales employee
+          - Name: SKFBP
+            Type: double
+            Comment: Amount eligible for cash discount in document currency
+          - Name: SMENG
+            Type: double
+            Comment: Scale Quantity in base unit of measure
+          - Name: SPARA
+            Type: string
+            Comment: Division for order header
+          - Name: SPART
+            Type: string
+            Comment: Division
+          - Name: STADAT
+            Type: string
+            Comment: Statistics date
+          - Name: STCUR
+            Type: double
+            Comment: Exchange rate for statistics (Exch.rate at time of creation)
+          - Name: UMVKN
+            Type: double
+            Comment: Denominator (divisor) for conversion of sales Qty into SKU
+          - Name: UMVKZ
+            Type: double
+            Comment: Numerator (factor) for conversion of sales quantity into SKU
+          - Name: VDATU
+            Type: string
+            Comment: Date of update for statistics updating
+          - Name: VGBEL
+            Type: string
+            Comment: Document number of the reference document
+          - Name: VGPOS
+            Type: bigint
+            Comment: Item number of the reference item
+          - Name: VKBUR
+            Type: string
+            Comment: Sales office
+          - Name: VKGRP
+            Type: string
+            Comment: Sales group
+          - Name: VOLEH
+            Type: string
+            Comment: Volume unit
+          - Name: VOLUM
+            Type: double
+            Comment: Volume
+          - Name: VRKME
+            Type: string
+            Comment: Sales unit
+          - Name: VSTEL
+            Type: string
+            Comment: Shipping Point / Receiving Point
+          - Name: WAVWR
+            Type: double
+            Comment: Cost in Document Currency
+          - Name: WERKS
+            Type: string
+            Comment: Plant
+          - Name: PS_POSID
+            Type: string
+            Comment: Work Breakdown Structure Element (WBS Element)
+          - Name: ANZFKPOS
+            Type: double
+            Comment: Number of billing items
+          - Name: PERIV
+            Type: string
+            Comment: Fiscal Year Variant
+          - Name: MCEX_APCAMPAIGN
+            Type: string
+            Comment: Campaign of referred sales order item for BW-Extraction
+          - Name: ODQ_CHANGEMODE
+            Type: string
+            Comment: ODQ Change Mode
+          - Name: ODQ_ENTITYCNTR
+            Type: double
+            Comment: ODQ Counter
+          InputFormat: org.apache.hadoop.mapred.TextInputFormat
+          Location: 
+            !Join 
+            - ''
+            - - 's3://'
+              - !Ref 'DataBucketName'
+              - '/cf_'
+              - !Ref 'CFNTableName6'
+          SerdeInfo:
+            Parameters:
+              skip.header.line.count: 0       
+            SerializationLibrary: org.openx.data.jsonserde.JsonSerDe
+
+  CFNTableCUSTAttr:
+    # Creating the table waits for the database to be created
+    DependsOn: CFNDatabaseAccelerator
+    Type: AWS::Glue::Table
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseName: !Ref CFNDatabaseName
+      TableInput:
+        Name: !Ref CFNTableName7
+        Description: Datasource from 0CUSTOMER_ATTR
+        TableType: EXTERNAL_TABLE
+        Parameters: {
+    "classification": "JSON"
+        }
+        StorageDescriptor:
+          OutputFormat: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat
+          Columns:
+          - Name: MANDT
+            Type: string
+            Comment: Client                                                      
+          - Name: KUNNR
+            Type: string
+            Comment: Customer Number                                             
+          - Name: ADRNR
+            Type: string
+            Comment: Address                                                     
+          - Name: ANRED
+            Type: string
+            Comment: Title                                                       
+          - Name: AUFSD
+            Type: string
+            Comment: Central order block for customer                            
+          - Name: BAHNE
+            Type: string
+            Comment: Express train station                                       
+          - Name: BAHNS
+            Type: string
+            Comment: Train station                                               
+          - Name: BBBNR
+            Type: bigint
+            Comment: International location number  (part 1)                     
+          - Name: BBSNR
+            Type: bigint
+            Comment: International location number (Part 2)                      
+          - Name: BEGRU
+            Type: string
+            Comment: Authorization Group                                         
+          - Name: BRSCH
+            Type: string
+            Comment: Industry key                                                
+          - Name: BUBKZ
+            Type: bigint
+            Comment: Check digit for the international location number           
+          - Name: DATLT
+            Type: string
+            Comment: Data communication line no.                                 
+          - Name: ERDAT
+            Type: string
+            Comment: Date on which the Record Was Created                        
+          - Name: ERNAM
+            Type: string
+            Comment: Name of Person who Created the Object                       
+          - Name: EXABL
+            Type: string
+            Comment: Indicator- Unloading points exist                           
+          - Name: FAKSD
+            Type: string
+            Comment: Central billing block for customer                          
+          - Name: FISKN
+            Type: string
+            Comment: Account number of the master record with the fiscal address 
+          - Name: KNAZK
+            Type: string
+            Comment: Working Time Calendar                                       
+          - Name: KNRZA
+            Type: string
+            Comment: Account Number of an Alternative Payer                      
+          - Name: KONZS
+            Type: string
+            Comment: Group key                                                   
+          - Name: KTOKD
+            Type: string
+            Comment: Customer Account Group                                      
+          - Name: KUKLA
+            Type: string
+            Comment: Customer Classification                                     
+          - Name: LAND1
+            Type: string
+            Comment: Country/Region Key                                          
+          - Name: LIFNR
+            Type: string
+            Comment: Account Number of Supplier                                  
+          - Name: LIFSD
+            Type: string
+            Comment: Central delivery block for the customer                     
+          - Name: LOCCO
+            Type: string
+            Comment: City Coordinates                                            
+          - Name: LOEVM
+            Type: string
+            Comment: Central Deletion Flag for Master Record                     
+          - Name: NAME1
+            Type: string
+            Comment: Name 1                                                      
+          - Name: NAME2
+            Type: string
+            Comment: Name 2                                                      
+          - Name: NAME3
+            Type: string
+            Comment: Name 3                                                      
+          - Name: NAME4
+            Type: string
+            Comment: Name 4                                                      
+          - Name: NIELS
+            Type: string
+            Comment: Nielsen ID                                                  
+          - Name: ORT01
+            Type: string
+            Comment: City                                                        
+          - Name: ORT02
+            Type: string
+            Comment: District                                                    
+          - Name: PFACH
+            Type: string
+            Comment: PO Box                                                      
+          - Name: PSTL2
+            Type: string
+            Comment: P.O. Box Postal Code                                        
+          - Name: PSTLZ
+            Type: string
+            Comment: Postal Code                                                 
+          - Name: REGIO
+            Type: string
+            Comment: Region (State, Province, County)                            
+          - Name: COUNC
+            Type: string
+            Comment: County Code                                                 
+          - Name: CITYC
+            Type: string
+            Comment: City Code                                                   
+          - Name: RPMKR
+            Type: string
+            Comment: Regional market                                             
+          - Name: SORTL
+            Type: string
+            Comment: Sort field                                                  
+          - Name: SPERR
+            Type: string
+            Comment: Central posting block                                       
+          - Name: SPRAS
+            Type: string
+            Comment: Language Key                                                
+          - Name: STCD1
+            Type: string
+            Comment: Tax Number 1                                                
+          - Name: STCD2
+            Type: string
+            Comment: Tax Number 2                                                
+          - Name: STKZA
+            Type: string
+            Comment: Indicator- Business Partner Subject to Equalization Tax?    
+          - Name: STKZU
+            Type: string
+            Comment: Liable for VAT                                              
+          - Name: STRAS
+            Type: string
+            Comment: Street and House Number                                     
+          - Name: TELBX
+            Type: string
+            Comment: Telebox number                                              
+          - Name: TELF1
+            Type: string
+            Comment: First telephone number                                      
+          - Name: TELF2
+            Type: string
+            Comment: Second telephone number                                     
+          - Name: TELFX
+            Type: string
+            Comment: Fax Number                                                  
+          - Name: TELTX
+            Type: string
+            Comment: Teletex number                                              
+          - Name: TELX1
+            Type: string
+            Comment: Telex number                                                
+          - Name: LZONE
+            Type: string
+            Comment: Transportation zone to or from which the goods are delivered
+          - Name: XCPDK
+            Type: string
+            Comment: Indicator- Is the account a one-time account?               
+          - Name: XZEMP
+            Type: string
+            Comment: Indicator- Alternative Payee in Document Allowed?           
+          - Name: VBUND
+            Type: string
+            Comment: Company ID of Trading Partner                               
+          - Name: STCEG
+            Type: string
+            Comment: VAT Registration Number                                     
+          - Name: DEAR1
+            Type: string
+            Comment: Indicator- Competitor                                       
+          - Name: DEAR2
+            Type: string
+            Comment: Indicator- Sales partner                                    
+          - Name: DEAR3
+            Type: string
+            Comment: Indicator- Sales prospect                                   
+          - Name: DEAR4
+            Type: string
+            Comment: Indicator for customer type 4                               
+          - Name: DEAR5
+            Type: string
+            Comment: ID for default sold-to party                                
+          - Name: DEAR6
+            Type: string
+            Comment: Indicator- Consumer                                         
+          - Name: GFORM
+            Type: string
+            Comment: Legal status                                                
+          - Name: BRAN1
+            Type: string
+            Comment: Industry code 1                                             
+          - Name: BRAN2
+            Type: string
+            Comment: Industry code 2                                             
+          - Name: BRAN3
+            Type: string
+            Comment: Industry code 3                                             
+          - Name: BRAN4
+            Type: string
+            Comment: Industry code 4                                             
+          - Name: BRAN5
+            Type: string
+            Comment: Industry code 5                                             
+          - Name: EKONT
+            Type: string
+            Comment: Initial contact                                             
+          - Name: UMSAT
+            Type: double
+            Comment: Annual sales                                                
+          - Name: UMJAH
+            Type: bigint
+            Comment: Year For Which Sales are Given                              
+          - Name: UWAER
+            Type: string
+            Comment: Currency of sales figure                                    
+          - Name: JMZAH
+            Type: bigint
+            Comment: Yearly number of employees                                  
+          - Name: JMJAH
+            Type: bigint
+            Comment: Year for which the number of employees is given             
+          - Name: KATR1
+            Type: string
+            Comment: Attribute 1                                                 
+          - Name: KATR2
+            Type: string
+            Comment: Attribute 2                                                 
+          - Name: KATR3
+            Type: string
+            Comment: Attribute 3                                                 
+          - Name: KATR4
+            Type: string
+            Comment: Attribute 4                                                 
+          - Name: KATR5
+            Type: string
+            Comment: Attribute 5                                                 
+          - Name: KATR6
+            Type: string
+            Comment: Attribute 6                                                 
+          - Name: KATR7
+            Type: string
+            Comment: Attribute 7                                                 
+          - Name: KATR8
+            Type: string
+            Comment: Attribute 8                                                 
+          - Name: KATR9
+            Type: string
+            Comment: Attribute 9                                                 
+          - Name: KATR10
+            Type: string
+            Comment: Attribute 10                                                
+          - Name: STKZN
+            Type: string
+            Comment: Natural Person                                              
+          - Name: UMSA1
+            Type: double
+            Comment: Annual sales                                                
+          - Name: TXJCD
+            Type: string
+            Comment: Tax Jurisdiction                                            
+          - Name: MCOD1
+            Type: string
+            Comment: Search term for matchcode search                            
+          - Name: MCOD2
+            Type: string
+            Comment: Search Term for Matchcode Search                            
+          - Name: MCOD3
+            Type: string
+            Comment: Search term for matchcode search                            
+          - Name: PERIV
+            Type: string
+            Comment: Fiscal Year Variant                                         
+          - Name: ABRVW
+            Type: string
+            Comment: Usage Indicator                                             
+          - Name: INSPBYDEBI
+            Type: string
+            Comment: Inspection Carried Out By Customer (No Inspection Lot)      
+          - Name: INSPATDEBI
+            Type: string
+            Comment: Inspection for a Delivery Note After Outbound Delivery      
+          - Name: KTOCD
+            Type: string
+            Comment: Reference Account Group for One-Time Account (Customer)     
+          - Name: PFORT
+            Type: string
+            Comment: PO Box city                                                 
+          - Name: WERKS
+            Type: string
+            Comment: Plant                                                       
+          - Name: DTAMS
+            Type: string
+            Comment: Report key for data medium exchange                         
+          - Name: DTAWS
+            Type: string
+            Comment: Instruction Key for Data Medium Exchange                    
+          - Name: DUEFL
+            Type: string
+            Comment: Status of Data Transfer into Subsequent Release             
+          - Name: HZUOR
+            Type: bigint
+            Comment: Assignment to Hierarchy                                     
+          - Name: SPERZ
+            Type: string
+            Comment: Payment Block                                               
+          - Name: ETIKG
+            Type: string
+            Comment: IS-R Labeling- customer/plant group                         
+          - Name: CIVVE
+            Type: string
+            Comment: ID for mainly non-military use                              
+          - Name: MILVE
+            Type: string
+            Comment: ID for mainly military use                                  
+          - Name: KDKG1
+            Type: string
+            Comment: Customer condition group 1                                  
+          - Name: KDKG2
+            Type: string
+            Comment: Customer condition group 2                                  
+          - Name: KDKG3
+            Type: string
+            Comment: Customer condition group 3                                  
+          - Name: KDKG4
+            Type: string
+            Comment: Customer condition group 4                                  
+          - Name: KDKG5
+            Type: string
+            Comment: Customer condition group 5                                  
+          - Name: XKNZA
+            Type: string
+            Comment: Indicator- Alternative payer using account number           
+          - Name: FITYP
+            Type: string
+            Comment: Tax type                                                    
+          - Name: STCDT
+            Type: string
+            Comment: Tax Number Type                                             
+          - Name: STCD3
+            Type: string
+            Comment: Tax Number 3                                                
+          - Name: STCD4
+            Type: string
+            Comment: Tax Number 4                                                
+          - Name: XICMS
+            Type: string
+            Comment: Customer is ICMS-exempt                                     
+          - Name: XXIPI
+            Type: string
+            Comment: Customer is IPI-exempt                                      
+          - Name: XSUBT
+            Type: string
+            Comment: Customer group for Substitui??ao Tribut??ria calculation      
+          - Name: CFOPC
+            Type: string
+            Comment: Customer's CFOP category                                    
+          - Name: TXLW1
+            Type: string
+            Comment: Tax law- ICMS                                               
+          - Name: TXLW2
+            Type: string
+            Comment: Tax law- IPI                                                
+          - Name: CCC01
+            Type: string
+            Comment: Indicator for biochemical warfare for legal control         
+          - Name: CCC02
+            Type: string
+            Comment: Indicator for nuclear nonproliferation for legal control    
+          - Name: CCC03
+            Type: string
+            Comment: Indicator for national security for legal control           
+          - Name: CCC04
+            Type: string
+            Comment: Indicator for missile technology for legal control          
+          - Name: CASSD
+            Type: string
+            Comment: Central sales block for customer                            
+          - Name: KNURL
+            Type: string
+            Comment: Uniform resource locator                                    
+          - Name: ODQ_CHANGEMODE
+            Type: string
+            Comment: ODQ Change Mode
+          - Name: ODQ_ENTITYCNTR
+            Type: double
+            Comment: ODQ Counter
+          InputFormat: org.apache.hadoop.mapred.TextInputFormat
+          Location: 
+            !Join 
+            - ''
+            - - 's3://'
+              - !Ref 'DataBucketName'
+              - '/cf_'
+              - !Ref 'CFNTableName7'
+          SerdeInfo:
+            Parameters:
+              skip.header.line.count: 0       
+            SerializationLibrary: org.openx.data.jsonserde.JsonSerDe
+
+  CFNTableMatAttr:
+    # Creating the table waits for the database to be created
+    DependsOn: CFNDatabaseAccelerator
+    Type: AWS::Glue::Table
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      DatabaseName: !Ref CFNDatabaseName
+      TableInput:
+        Name: !Ref CFNTableName8
+        Description: Datasource from 0MATERIAL_ATTR
+        TableType: EXTERNAL_TABLE
+        Parameters: {
+    "classification": "JSON"
+        }
+        StorageDescriptor:
+          OutputFormat: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat
+          Columns:                                                  
+          - Name: MANDT                         
+            Type: string
+            Comment: Client                                                      
+          - Name: MATNR                         
+            Type: string
+            Comment: Material Number                                             
+          - Name: ERSDA                         
+            Type: string
+            Comment: Created On                                                  
+          - Name: ERNAM                         
+            Type: string
+            Comment: Name of Person Responsible for Creating the Object          
+          - Name: LAEDA                         
+            Type: string
+            Comment: Date of Last Change                                         
+          - Name: AENAM                         
+            Type: string
+            Comment: Name of Person Who Changed Object                           
+          - Name: VPSTA                         
+            Type: string
+            Comment: Maintenance status of complete material                     
+          - Name: PSTAT                         
+            Type: string
+            Comment: Maintenance status                                          
+          - Name: LVORM                         
+            Type: string
+            Comment: Flag Material for Deletion at Client Level                  
+          - Name: MTART                         
+            Type: string
+            Comment: Material type                                               
+          - Name: MBRSH                         
+            Type: string
+            Comment: Industry Sector                                             
+          - Name: MATKL                         
+            Type: string
+            Comment: Material Group                                              
+          - Name: BISMT                         
+            Type: string
+            Comment: Old material number                                         
+          - Name: MEINS                         
+            Type: string
+            Comment: Base Unit of Measure                                        
+          - Name: BSTME                         
+            Type: string
+            Comment: Purchase Order Unit of Measure                              
+          - Name: ZEINR                         
+            Type: string
+            Comment: Document number (without document management system)        
+          - Name: ZEIAR                         
+            Type: string
+            Comment: Document type (without Document Management system)          
+          - Name: ZEIVR                         
+            Type: string
+            Comment: Document version (without Document Management system)       
+          - Name: ZEIFO                         
+            Type: string
+            Comment: Page format of document (without Document Management system)
+          - Name: AESZN                         
+            Type: string
+            Comment: Document change number (without document management system) 
+          - Name: BLATT                         
+            Type: string
+            Comment: Page number of document (without Document Management system)
+          - Name: BLANZ                         
+            Type: bigint
+            Comment: Number of sheets (without Document Management system)       
+          - Name: FERTH                         
+            Type: string
+            Comment: Production/inspection memo                                  
+          - Name: FORMT                         
+            Type: string
+            Comment: Page Format of Production Memo                              
+          - Name: GROES                         
+            Type: string
+            Comment: Size/dimensions                                             
+          - Name: WRKST                         
+            Type: string
+            Comment: Basic Material                                              
+          - Name: NORMT                         
+            Type: string
+            Comment: Industry Standard Description (such as ANSI or ISO)         
+          - Name: LABOR                         
+            Type: string
+            Comment: Laboratory/design office                                    
+          - Name: EKWSL                         
+            Type: string
+            Comment: Purchasing Value Key                                        
+          - Name: BRGEW                         
+            Type: double
+            Comment: Gross weight                                                
+          - Name: NTGEW                         
+            Type: double
+            Comment: Net weight                                                  
+          - Name: GEWEI                         
+            Type: string
+            Comment: Weight Unit                                                 
+          - Name: VOLUM                         
+            Type: double
+            Comment: Volume                                                      
+          - Name: VOLEH                         
+            Type: string
+            Comment: Volume unit                                                 
+          - Name: BEHVO                         
+            Type: string
+            Comment: Container requirements                                      
+          - Name: RAUBE                         
+            Type: string
+            Comment: Storage conditions                                          
+          - Name: TEMPB                         
+            Type: string
+            Comment: Temperature conditions indicator                            
+          - Name: DISST                         
+            Type: string
+            Comment: Low-Level Code                                              
+          - Name: TRAGR                         
+            Type: string
+            Comment: Transportation Group                                        
+          - Name: STOFF                         
+            Type: string
+            Comment: Hazardous material number                                   
+          - Name: SPART                         
+            Type: string
+            Comment: Division                                                    
+          - Name: KUNNR                         
+            Type: string
+            Comment: Competitor                                                  
+          - Name: EANNR                         
+            Type: string
+            Comment: European Article Number (EAN) - obsolete!!!!!               
+          - Name: WESCH                         
+            Type: double
+            Comment: Quantity- Number of GR/GI slips to be printed               
+          - Name: BWVOR                         
+            Type: string
+            Comment: Procurement rule                                            
+          - Name: BWSCL                         
+            Type: string
+            Comment: Source of Supply                                            
+          - Name: SAISO                         
+            Type: string
+            Comment: Season Category                                             
+          - Name: ETIAR                         
+            Type: string
+            Comment: Label type                                                  
+          - Name: ETIFO                         
+            Type: string
+            Comment: Label form                                                  
+          - Name: ENTAR                         
+            Type: string
+            Comment: Disposal type                                               
+          - Name: EAN11                         
+            Type: string
+            Comment: International Article Number (EAN/UPC)                      
+          - Name: NUMTP                         
+            Type: string
+            Comment: Category of International Article Number (EAN)              
+          - Name: LAENG                         
+            Type: double
+            Comment: Length                                                      
+          - Name: BREIT                         
+            Type: double
+            Comment: Width                                                       
+          - Name: HOEHE                         
+            Type: double
+            Comment: Height                                                      
+          - Name: MEABM                         
+            Type: string
+            Comment: Unit of Dimension for Length/Width/Height                   
+          - Name: PRDHA                         
+            Type: string
+            Comment: Product hierarchy                                           
+          - Name: AEKLK                         
+            Type: string
+            Comment: Stock Transfer Net Change Costing                           
+          - Name: CADKZ                         
+            Type: string
+            Comment: CAD Indicator                                               
+          - Name: QMPUR                         
+            Type: string
+            Comment: QM in Procurement Is Active                                 
+          - Name: ERGEW                         
+            Type: double
+            Comment: Allowed packaging weight                                    
+          - Name: ERGEI                         
+            Type: string
+            Comment: Unit of weight (allowed packaging weight)                   
+          - Name: ERVOL                         
+            Type: double
+            Comment: Allowed packaging volume                                    
+          - Name: ERVOE                         
+            Type: string
+            Comment: Volume unit (allowed packaging volume)                      
+          - Name: GEWTO                         
+            Type: double
+            Comment: Excess Weight Tolerance for Handling unit                   
+          - Name: VOLTO                         
+            Type: double
+            Comment: Excess Volume Tolerance of the Handling Unit                
+          - Name: VABME                         
+            Type: string
+            Comment: Variable Purchase Order Unit Active                         
+          - Name: KZREV                         
+            Type: string
+            Comment: Revision Level Has Been Assigned to the Material            
+          - Name: KZKFG                         
+            Type: string
+            Comment: Configurable Material                                       
+          - Name: XCHPF                         
+            Type: string
+            Comment: Batch Management Requirement Indicator                      
+          - Name: VHART                         
+            Type: string
+            Comment: Packaging Material Type                                     
+          - Name: FUELG                         
+            Type: double
+            Comment: Maximum level (by volume)                                   
+          - Name: STFAK                         
+            Type: bigint
+            Comment: Stacking factor                                             
+          - Name: MAGRV                         
+            Type: string
+            Comment: Material Group- Packaging Materials                         
+          - Name: BEGRU                         
+            Type: string
+            Comment: Authorization Group                                         
+          - Name: DATAB                         
+            Type: string
+            Comment: Valid-From Date                                             
+          - Name: LIQDT                         
+            Type: string
+            Comment: Deletion date                                               
+          - Name: SAISJ                         
+            Type: string
+            Comment: Season Year                                                 
+          - Name: PLGTP                         
+            Type: string
+            Comment: Price Band Category                                         
+          - Name: MLGUT                         
+            Type: string
+            Comment: Empties Bill of Material                                    
+          - Name: EXTWG                         
+            Type: string
+            Comment: External Material Group                                     
+          - Name: SATNR                         
+            Type: string
+            Comment: Cross-Plant Configurable Material                           
+          - Name: ATTYP                         
+            Type: string
+            Comment: Material Category                                           
+          - Name: KZKUP                         
+            Type: string
+            Comment: Indicator- Material can be co-product                       
+          - Name: KZNFM                         
+            Type: string
+            Comment: Indicator- The material has a follow-up material            
+          - Name: PMATA                         
+            Type: string
+            Comment: Pricing Reference Material                                  
+          - Name: MSTAE                         
+            Type: string
+            Comment: Cross-Plant Material Status                                 
+          - Name: MSTAV                         
+            Type: string
+            Comment: Cross-distribution-chain material status                    
+          - Name: MSTDE                         
+            Type: string
+            Comment: Date from which the cross-plant material status is valid    
+          - Name: MSTDV                         
+            Type: string
+            Comment: Date from which the X-distr.-chain material status is valid 
+          - Name: TAKLV                         
+            Type: string
+            Comment: Tax classification of the material                          
+          - Name: RBNRM                         
+            Type: string
+            Comment: Catalog Profile                                             
+          - Name: MHDRZ                         
+            Type: double
+            Comment: Minimum Remaining Shelf Life                                
+          - Name: MHDHB                         
+            Type: double
+            Comment: Total shelf life                                            
+          - Name: MHDLP                         
+            Type: double
+            Comment: Storage percentage                                          
+          - Name: INHME                         
+            Type: string
+            Comment: Content unit                                                
+          - Name: INHAL                         
+            Type: double
+            Comment: Net contents                                                
+          - Name: VPREH                         
+            Type: double
+            Comment: Comparison price unit                                       
+          - Name: ETIAG                         
+            Type: string
+            Comment: IS-R Labeling- material grouping (deactivated in 4.0)       
+          - Name: INHBR                         
+            Type: double
+            Comment: Gross contents                                              
+          - Name: CMETH                         
+            Type: string
+            Comment: Quantity Conversion Method                                  
+          - Name: CUOBF                         
+            Type: bigint
+            Comment: Internal object number                                      
+          - Name: KZUMW                         
+            Type: string
+            Comment: Environmentally Relevant                                    
+          - Name: KOSCH                         
+            Type: string
+            Comment: Product allocation determination procedure                  
+          - Name: SPROF                         
+            Type: string
+            Comment: Pricing profile for variants                                
+          - Name: NRFHG                         
+            Type: string
+            Comment: Material qualifies for discount in kind                     
+          - Name: MFRPN                         
+            Type: string
+            Comment: Manufacturer Part Number                                    
+          - Name: MFRNR                         
+            Type: string
+            Comment: Manufacturer number                                         
+          - Name: BMATN                         
+            Type: string
+            Comment: Number of firm's own (internal) inventory-managed material  
+          - Name: MPROF                         
+            Type: string
+            Comment: Mfr part profile                                            
+          - Name: KZWSM                         
+            Type: string
+            Comment: Units of measure usage                                      
+          - Name: SAITY                         
+            Type: string
+            Comment: Rollout in a Season                                         
+          - Name: PROFL                         
+            Type: string
+            Comment: Dangerous Goods Indicator Profile                           
+          - Name: IHIVI                         
+            Type: string
+            Comment: Indicator- Highly Viscous                                   
+          - Name: ILOOS                         
+            Type: string
+            Comment: Indicator- In Bulk/Liquid                                   
+          - Name: SERLV                         
+            Type: string
+            Comment: Level of Explicitness for Serial Number                     
+          - Name: KZGVH                         
+            Type: string
+            Comment: Packaging Material is Closed Packaging                      
+          - Name: XGCHP                         
+            Type: string
+            Comment: Approved Batch Record Required                              
+          - Name: KZEFF                         
+            Type: string
+            Comment: Assign effectivity parameter values/ override change numbers
+          - Name: COMPL                         
+            Type: bigint
+            Comment: Material completion level                                   
+          - Name: IPRKZ                         
+            Type: string
+            Comment: Period Indicator for Shelf Life Expiration Date             
+          - Name: RDMHD                         
+            Type: string
+            Comment: Rounding rule for calculation of SLED                       
+          - Name: PRZUS                         
+            Type: string
+            Comment: Indicator- Product composition printed on packaging         
+          - Name: MTPOS_MARA                    
+            Type: string
+            Comment: General item category group                                 
+          - Name: BFLME                         
+            Type: string
+            Comment: Generic Material with Logistical Variants                   
+          - Name: /CWM/XCWMAT                   
+            Type: string
+            Comment: Material Is Activated for CW                                
+          - Name: /CWM/VALUM                    
+            Type: string
+            Comment: Valuation Unit of Measure                                   
+          - Name: /CWM/TOLGR                    
+            Type: string
+            Comment: Tolerance Group for CWM                                     
+          - Name: /CWM/TARA                     
+            Type: string
+            Comment: Checkbox                                                    
+          - Name: /CWM/TARUM                    
+            Type: string
+            Comment: Base Unit of Measure                                        
+          - Name: MATNR_EXT                     
+            Type: string
+            Comment: External Long Material Number                               
+          - Name: MATNR_VERS                    
+            Type: string
+            Comment: Material Version Number                                     
+          - Name: MATNR_SEL                     
+            Type: string
+            Comment: External Material Number Plus Version for Selection         
+          - Name: NSNID                         
+            Type: string
+            Comment: NATO Stock Number                                           
+          - Name: COLOR_ATINN                   
+            Type: bigint
+            Comment: Internal Charactieristic Number for Color Characteristics   
+          - Name: SIZE1_ATINN                   
+            Type: bigint
+            Comment: Internal Char. Number for Characteristics for Main Sizes    
+          - Name: SIZE2_ATINN                   
+            Type: bigint
+            Comment: Internal Char. Number for Characteristics for Second Sizes  
+          - Name: COLOR                         
+            Type: string
+            Comment: Characteristic Value for Colors of Variants                 
+          - Name: SIZE1                         
+            Type: string
+            Comment: Characteristic Value for Main Sizes of Variants             
+          - Name: SIZE2                         
+            Type: string
+            Comment: Characteristic Value for Second Size for Variants           
+          - Name: FREE_CHAR                     
+            Type: string
+            Comment: Characteristic Value for Evaluation Purposes                
+          - Name: CARE_CODE                     
+            Type: string
+            Comment: Care Codes (such as Washing Code, Ironing Code, etc.)       
+          - Name: BRAND_ID                      
+            Type: string
+            Comment: Brand                                                       
+          - Name: FIBER_CODE1                   
+            Type: string
+            Comment: Fiber Code for Textiles (Component 1)                       
+          - Name: FIBER_PART1                   
+            Type: bigint
+            Comment: Percentage Share of Fiber (Component 1)                     
+          - Name: FIBER_CODE2                   
+            Type: string
+            Comment: Fiber Code for Textiles (Component 2)                       
+          - Name: FIBER_PART2                   
+            Type: bigint
+            Comment: Percentage Share of Fiber (Component 2)                     
+          - Name: FIBER_CODE3                   
+            Type: string
+            Comment: Fiber Code for Textiles (Component 3)                       
+          - Name: FIBER_PART3                   
+            Type: bigint
+            Comment: Percentage Share of Fiber (Component 3)                     
+          - Name: FIBER_CODE4                   
+            Type: string
+            Comment: Fiber Code for Textiles (Component 4)                       
+          - Name: FIBER_PART4                   
+            Type: bigint
+            Comment: Percentage Share of Fiber (Component 4)                     
+          - Name: FIBER_CODE5                   
+            Type: string
+            Comment: Fiber Code for Textiles (Component 5)                       
+          - Name: FIBER_PART5                   
+            Type: bigint
+            Comment: Percentage Share of Fiber (Component 5)                     
+          - Name: RPA_WGH1                      
+            Type: string
+            Comment: Material group hierarchy level                              
+          - Name: RPA_WGH2                      
+            Type: string
+            Comment: Material group hierarchy level                              
+          - Name: RPA_WGH3                      
+            Type: string
+            Comment: Material group hierarchy level                              
+          - Name: RPA_WGH4                      
+            Type: string
+            Comment: Material group hierarchy level                              
+          - Name: FASHGRD                       
+            Type: string
+            Comment: Fashion Grade                                               
+          - Name: ODQ_CHANGEMODE
+            Type: string
+            Comment: ODQ Change Mode
+          - Name: ODQ_ENTITYCNTR
+            Type: double
+            Comment: ODQ Counter
+
+          InputFormat: org.apache.hadoop.mapred.TextInputFormat
+          Location: 
+            !Join 
+            - ''
+            - - 's3://'
+              - !Ref 'DataBucketName'
+              - '/cf_'
+              - !Ref 'CFNTableName8'
+          SerdeInfo:
+            Parameters:
+              skip.header.line.count: 0       
+            SerializationLibrary: org.openx.data.jsonserde.JsonSerDe
