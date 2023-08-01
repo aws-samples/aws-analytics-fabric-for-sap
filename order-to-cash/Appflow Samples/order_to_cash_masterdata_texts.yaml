@@ -4,11 +4,11 @@ Description: >
 
 ##  To use this template, you must have installed the below extractors and created their service as per pre-requisites.  Once you have, simply find and replace the service details for each 
 ##  By default this schedules the below flows to run once daily
-##  0CUST_GRP_1_TEXT  - /sap/opu/odata/sap/ZCUSTOMER_SRV/EntityOf0CUST_GRP1_TEXT 
-##  0CUST_GRP_2_TEXT  - /sap/opu/odata/sap/ZCUSTOMER_SRV/EntityOf0CUST_GRP2_TEXT 
-##  0CUST_GRP_3_TEXT  - /sap/opu/odata/sap/ZCUSTOMER_SRV/EntityOf0CUST_GRP3_TEXT 
-##  0CUST_GRP_4_TEXT  - /sap/opu/odata/sap/ZCUSTOMER_SRV/EntityOf0CUST_GRP4_TEXT 
-##  0CUST_GRP_5_TEXT  - /sap/opu/odata/sap/ZCUSTOMER_SRV/EntityOf0CUST_GRP5_TEXT 
+##  0CUST_GRP1_TEXT  - /sap/opu/odata/sap/ZCUSTOMER_SRV/EntityOf0CUST_GRP1_TEXT 
+##  0CUST_GRP2_TEXT  - /sap/opu/odata/sap/ZCUSTOMER_SRV/EntityOf0CUST_GRP2_TEXT 
+##  0CUST_GRP3_TEXT  - /sap/opu/odata/sap/ZCUSTOMER_SRV/EntityOf0CUST_GRP3_TEXT 
+##  0CUST_GRP4_TEXT  - /sap/opu/odata/sap/ZCUSTOMER_SRV/EntityOf0CUST_GRP4_TEXT 
+##  0CUST_GRP5_TEXT  - /sap/opu/odata/sap/ZCUSTOMER_SRV/EntityOf0CUST_GRP5_TEXT 
 ##  0MATL_GRP_1_TEXT  - /sap/opu/odata/sap/ZMATERIAL_SRV/EntityOf0MATL_GRP_1_TEXT
 ##  0MATL_GRP_2_TEXT  - /sap/opu/odata/sap/ZMATERIAL_SRV/EntityOf0MATL_GRP_2_TEXT
 ##  0MATL_GRP_3_TEXT  - /sap/opu/odata/sap/ZMATERIAL_SRV/EntityOf0MATL_GRP_3_TEXT
@@ -37,9 +37,9 @@ Resources:
     Type: AWS::AppFlow::Flow
     Properties: 
       ## This is the unique technical name for the flow, ideally name this related to the data being loaded
-      FlowName: cf_cust_grp_1
+      FlowName: cf_cust_grp1
       FlowStatus: Active
-      Description: 'Pull data from SAP and saves into S3 for 0CUST_GRP_1'
+      Description: 'Pull data from SAP and saves into S3 for 0CUST_GRP1'
       TriggerConfig:
           TriggerType: Scheduled
           TriggerProperties:
@@ -81,9 +81,9 @@ Resources:
     Type: AWS::AppFlow::Flow
     Properties: 
       ## This is the unique technical name for the flow, ideally name this related to the data being loaded
-      FlowName: cf_cust_grp_2
+      FlowName: cf_cust_grp2
       FlowStatus: Active      
-      Description: 'Pull data from SAP and saves into S3 for 0CUST_GRP_2'
+      Description: 'Pull data from SAP and saves into S3 for 0CUST_GRP2'
       TriggerConfig:
           TriggerType: Scheduled
           TriggerProperties:
@@ -125,9 +125,9 @@ Resources:
     Type: AWS::AppFlow::Flow
     Properties: 
       ## This is the unique technical name for the flow, ideally name this related to the data being loaded
-      FlowName: cf_cust_grp_3
+      FlowName: cf_cust_grp3
       FlowStatus: Active      
-      Description: 'Pull data from SAP and saves into S3 for 0CUST_GRP_3'
+      Description: 'Pull data from SAP and saves into S3 for 0CUST_GRP3'
       TriggerConfig:
           TriggerType: Scheduled
           TriggerProperties:
@@ -169,9 +169,9 @@ Resources:
     Type: AWS::AppFlow::Flow
     Properties: 
       ## This is the unique technical name for the flow, ideally name this related to the data being loaded
-      FlowName: cf_cust_grp_4
+      FlowName: cf_cust_grp4
       FlowStatus: Active      
-      Description: 'Pull data from SAP and saves into S3 for 0CUST_GRP_4'
+      Description: 'Pull data from SAP and saves into S3 for 0CUST_GRP4'
       TriggerConfig:
           TriggerType: Scheduled
           TriggerProperties:
@@ -213,9 +213,9 @@ Resources:
     Type: AWS::AppFlow::Flow
     Properties: 
       ## This is the unique technical name for the flow, ideally name this related to the data being loaded
-      FlowName: cf_cust_grp_5
+      FlowName: cf_cust_grp5
       FlowStatus: Active      
-      Description: 'Pull data from SAP and saves into S3 for 0CUST_GRP_5'
+      Description: 'Pull data from SAP and saves into S3 for 0CUST_GRP5'
       TriggerConfig:
           TriggerType: Scheduled
           TriggerProperties:

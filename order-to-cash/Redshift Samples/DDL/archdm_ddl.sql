@@ -1,4 +1,4 @@
-**Contains definition for reporting materialized views
+--**Contains definition for reporting materialized views
 
 create schema archdm;
 
@@ -78,7 +78,7 @@ FROM
 where
     dm_is_current = '1' ;
 
---Materialised View sample for Consumption (Building on the )
+--Materialised View sample for Consumption (Building on the above )
 
 CREATE MATERIALIZED VIEW salesorders AS
     select  h.sls_dstrbn_document_nbr,

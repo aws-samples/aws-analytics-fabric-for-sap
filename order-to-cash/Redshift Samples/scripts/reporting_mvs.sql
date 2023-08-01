@@ -1,5 +1,5 @@
 
---Refresh salesorders;
+--Refresh salesorders
 
 CREATE MATERIALIZED VIEW archdm.salesorders
 distkey
@@ -370,4 +370,4 @@ sdh.sls_dstrbn_document_nbr
 ,di.campaign_of_referred_sales_order_item_for_bw_extraction
 from
         archdm.sales_delivery_header_latest sdh
-        join archdm.delivery_item_latest di on sdh.sls_dstrbn_document_nbr = di.sls_dstrbn_document_nbr
+        join archdm.delivery_item_latest di on sdh.sls_dstrbn_document_nbr = di.sls_dstrbn_document_nbr;

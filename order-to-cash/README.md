@@ -49,7 +49,7 @@ Additional extractors, both transactional and master data can be added into your
         3.  archdm_ddl.sql\
         Then these scripts, should be executed in the following order \
         4.  reporting_mvs.sql \
-        5.  auto_copy_data_jobs.sql\
+        5.  auto_copy_data_jobs.sql (**NOTE at time of making this repo publicly available, autocopy utilised in this script is only available in preview, please reference this link for updates (https://docs.aws.amazon.com/redshift/latest/dg/loading-data-copy-job.html)re\
         6.  each incremental*.sql script\
         7.  orchestration.sql\
     d.)  Cloudformation for Step Functions \
