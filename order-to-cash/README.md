@@ -38,7 +38,7 @@ Additional extractors, both transactional and master data can be added into your
 1.  Complete the pre-requisite steps as detailed in the main readme.  This includes: \
     a.)  Installing the above extractors in your SAP system (RSA6) and relevant configuration as per the README  \
     b.)  Exposing these datasources as an ODP service (SEGW) \
-    c.)  Creating the system connection between Amazon AppFlow and your SAP source system.
+    c.)  Creating the system connection between Amazon AppFlow and your SAP source system. \
     d.)  Creating Redhisft cluster in preview, with preview track **preview_2022**, to support the S3 autocopy feature
 
 2.  In order, the execute deployments, as per below \
@@ -50,9 +50,9 @@ Additional extractors, both transactional and master data can be added into your
         3.  archdm_ddl.sql\
         Then these scripts, should be executed in the following order \
         4.  reporting_mvs.sql \
-        5.  auto_copy_data_jobs.sql (**NOTE at time of making this repo publicly available, autocopy utilised in this script is only available in preview, please reference this link for updates (https://docs.aws.amazon.com/redshift/latest/dg/loading-data-copy-job.html), before executing please find and replace all entries with 'acc-sap-corpmem' bucket with your S3 bucket name and the iam_role with the appropriate role within your Redshift environment \
-        6.  each incremental*.sql script\
-        7.  orchestration.sql\
+        5.  auto_copy_data_jobs.sql ( **NOTE: at time of making this repo publicly available, autocopy utilised in this script is only available in preview, please reference this link for updates** (https://docs.aws.amazon.com/redshift/latest/dg/loading-data-copy-job.html), before executing please find and replace all entries with 'acc-sap-corpmem' bucket with your S3 bucket name and the iam_role with the appropriate role within your Redshift environment \
+        6.  each incremental*.sql script \
+        7.  orchestration.sql \
     d.)  Cloudformation for Step Functions \
     e.)  Connection to your Redshift cluster for Quicksight, and then the Cloudformation scripts for datasources. \
     f.)  Once the datasources are created, Cloudformation for the datasets
