@@ -142,7 +142,7 @@ SELECT
     sdi.item_sales_qty_net_price
 FROM
     archdm.sales_document_header_latest sdh
-    join archdm.sales_document_item_latest sdi on sdh.sls_dstrbn_document_nbr = sdi.sls_dstrbn_document_nbr --RequestID=83e2f13b-2122-49f0-b532-2e816ea39b1b; TraceID=1-646d4505-5ee66afa036bdb6e204a464f;
+    join archdm.sales_document_item_latest sdi on sdh.sls_dstrbn_document_nbr = sdi.sls_dstrbn_document_nbr; --RequestID=83e2f13b-2122-49f0-b532-2e816ea39b1b; TraceID=1-646d4505-5ee66afa036bdb6e204a464f;
 
 
 CREATE MATERIALIZED VIEW archdm.billingdocs
@@ -252,122 +252,122 @@ Select
     bdi.campaign_of_referred_sales_order_item_for_bw_extraction
 from
     archdm.billing_document_header_latest bdh
-    join archdm.billing_document_item_latest bdi on bdh.sls_dstrbn_document_nbr = bdi.sls_dstrbn_document_nbr --RequestID=4d87c12e-0b6a-41b3-9016-3b7523094d26; TraceID=1-646d489c-46b84d6a6f0e9b3c1e70e9c7;
+    join archdm.billing_document_item_latest bdi on bdh.sls_dstrbn_document_nbr = bdi.sls_dstrbn_document_nbr; --RequestID=4d87c12e-0b6a-41b3-9016-3b7523094d26; TraceID=1-646d489c-46b84d6a6f0e9b3c1e70e9c7;
 
 
 CREATE MATERIALIZED VIEW archdm.invoicedocs distkey(sls_dstrbn_document_nbr)  AS 
 select
-sdh.sls_dstrbn_document_nbr
-,sdh.unloading_point
-,sdh.total_weight
-,sdh.company_code
-,sdh.sales_district
-,sdh.record_create_date
-,sdh.billing_block
-,sdh.weight_unit
-,sdh.incoterms_part_1
-,sdh.incoterms_part_2
-,sdh.customer_group
-,sdh.sold_to_party
-,sdh.ship_to_party
-,sdh.delivery_type
-,sdh.delivery_date
-,sdh.vendor_account_number
-,sdh.delivery_block__document_header
-,sdh.loading_point
-,sdh.net_weight
-,sdh.bill_to_party
-,sdh.payer
-,sdh.forwarding_agent
-,sdh.sales_employee
-,sdh.route
-,sdh.sd_document_category
-,sdh.sales_organization
-,sdh.volume_unit
-,sdh.volume
-,sdh.shipping_point_receiving_point
-,sdh.planned_goods_movement_date
-,sdh.actual_goods_movement_date
-,sdh.num_of_deliveries
-,sdh.num_of_packages_per_delivery
-,sdh.fiscal_year_variant
-,sdh.actual_gi_delay_gi_date_for_delivery
-,di.picking_or_putaway_confirmation_status
-,di.item_picking_or_putaway_status
-,di.sd_doc_item_nbr
-,di.item_goods_movement_status
-,di.unloading_point item_unloading_point
-,di.billing_block_in_sd_document
-,di.ship_to_party item_ship_to_party
-,di.delivery_type item_delivery_type
-,di.delivery_date item_delivery_date
-,di.delivery_block_document_header
-,di.loading_point item_loading_point
-,di.route item_route
-,di.shipping_or_receiving_point
-,di.planned_goods_movement_date item_planned_goods_movement_date
-,di.actual_goods_movement_date item_actual_goods_movement_date
-,di.last_changed_on
-,di.promotion
-,di.item_gross_weight
-,di.application_component
-,di.sap_bw_transaction_key
-,di.batch_number
-,di.international_article_number_ean_upc
-,di.record_create_date item_record_create_date
-,di.object_creator_name
-,di.entry_time
-,di.billing_block_for_item
-,di.weight_unit item_weight_unit
-,di.business_area
-,di.picking_control_indicator
-,di.customer_group_1
-,di.customer_group_2
-,di.customer_group_3
-,di.customer_group_4
-,di.customer_group_5
-,di.consumption_posting
-,di.actual_quantity_delivered_in_sales_units
-,di.actualquantitydeliveredinstockkeepingunits
-,di.warehouse_number_or_complex
-,di.storage_location
-,di.storage_bin
-,di.storagetype
-,di.material_group
-,di.material_number
-,di.material_entered
-,di.base_unit_of_measure
-,di.material_group_1
-,di.material_group_2
-,di.material_group_3
-,di.material_group_4
-,di.material_group_5
-,di.net_weight_of_the_item
-,di.bill_to_party iem_bill_to_party
-,di.item_type
-,di.product_hierarchy
-,di.sales_document_item_category
-,di.statistics_date
-,di.sales_qty_sku_denominator
-,di.sales_qty_sku_numerator
-,di.fixed_shipping_processing_time_in_days
-,di.variable_shipping_processing_time_in_days
-,di.statistics_update_date
-,di.reference_document_nbr
-,di.reference_item_nbr
-,di.preceding_sd_doc_category
-,di.sales_office
-,di.sales_group
-,di.volume_unit item_volume_unit
-,di.item_volume
-,di.sales_unit
-,di.distribution_channel
-,di.own_or_external_plant
-,di.num_of_delivery_items
-,di.order_header_division
-,di.wbs_element
-,di.bw_extraction_le_actual_gi_delay
-,di.campaign_of_referred_sales_order_item_for_bw_extraction
+sdh.sls_dstrbn_document_nbr,
+sdh.unloading_point,
+sdh.total_weight,
+sdh.company_code,
+sdh.sales_district,
+sdh.record_create_date,
+sdh.billing_block,
+sdh.weight_unit,
+sdh.incoterms_part_1,
+sdh.incoterms_part_2,
+sdh.customer_group,
+sdh.sold_to_party,
+sdh.ship_to_party,
+sdh.delivery_type,
+sdh.delivery_date,
+sdh.vendor_account_number,
+sdh.delivery_block__document_header,
+sdh.loading_point,
+sdh.net_weight,
+sdh.bill_to_party,
+sdh.payer,
+sdh.forwarding_agent,
+sdh.sales_employee,
+sdh.route,
+sdh.sd_document_category,
+sdh.sales_organization,
+sdh.volume_unit,
+sdh.volume,
+sdh.shipping_point_receiving_point,
+sdh.planned_goods_movement_date,
+sdh.actual_goods_movement_date,
+sdh.num_of_deliveries,
+sdh.num_of_packages_per_delivery,
+sdh.fiscal_year_variant,
+sdh.actual_gi_delay_gi_date_for_delivery,
+di.picking_or_putaway_confirmation_status,
+di.item_picking_or_putaway_status,
+di.sd_doc_item_nbr,
+di.item_goods_movement_status,
+di.unloading_point item_unloading_point,
+di.billing_block_in_sd_document,
+di.ship_to_party item_ship_to_party,
+di.delivery_type item_delivery_type,
+di.delivery_date item_delivery_date,
+di.delivery_block_document_header,
+di.loading_point item_loading_point,
+di.route item_route,
+di.shipping_or_receiving_point,
+di.planned_goods_movement_date item_planned_goods_movement_date,
+di.actual_goods_movement_date item_actual_goods_movement_date,
+di.last_changed_on,
+di.promotion,
+di.item_gross_weight,
+di.application_component,
+di.sap_bw_transaction_key,
+di.batch_number,
+di.international_article_number_ean_upc,
+di.record_create_date item_record_create_date,
+di.object_creator_name,
+di.entry_time,
+di.billing_block_for_item,
+di.weight_unit item_weight_unit,
+di.business_area,
+di.picking_control_indicator,
+di.customer_group_1,
+di.customer_group_2,
+di.customer_group_3,
+di.customer_group_4,
+di.customer_group_5,
+di.consumption_posting,
+di.actual_quantity_delivered_in_sales_units,
+di.actualquantitydeliveredinstockkeepingunits,
+di.warehouse_number_or_complex,
+di.storage_location,
+di.storage_bin,
+di.storagetype,
+di.material_group,
+di.material_number,
+di.material_entered,
+di.base_unit_of_measure,
+di.material_group_1,
+di.material_group_2,
+di.material_group_3,
+di.material_group_4,
+di.material_group_5,
+di.net_weight_of_the_item,
+di.bill_to_party iem_bill_to_party,
+di.item_type,
+di.product_hierarchy,
+di.sales_document_item_category,
+di.statistics_date,
+di.sales_qty_sku_denominator,
+di.sales_qty_sku_numerator,
+di.fixed_shipping_processing_time_in_days,
+di.variable_shipping_processing_time_in_days,
+di.statistics_update_date,
+di.reference_document_nbr,
+di.reference_item_nbr,
+di.preceding_sd_doc_category,
+di.sales_office,
+di.sales_group,
+di.volume_unit item_volume_unit,
+di.item_volume,
+di.sales_unit,
+di.distribution_channel,
+di.own_or_external_plant,
+di.num_of_delivery_items,
+di.order_header_division,
+di.wbs_element,
+di.bw_extraction_le_actual_gi_delay,
+di.campaign_of_referred_sales_order_item_for_bw_extraction
 from
         archdm.sales_delivery_header_latest sdh
         join archdm.delivery_item_latest di on sdh.sls_dstrbn_document_nbr = di.sls_dstrbn_document_nbr;

@@ -39,17 +39,18 @@ Additional extractors, both transactional and master data can be added into your
     a.)  Installing the above extractors in your SAP system (RSA6) and relevant configuration as per the README  \
     b.)  Exposing these datasources as an ODP service (SEGW) \
     c.)  Creating the system connection between Amazon AppFlow and your SAP source system.
+    d.)  Creating Redhisft cluster in preview, with preview track **preview_2022**, to support the S3 autocopy feature
 
 2.  In order, the execute deployments, as per below \
     a.)  Cloudformation scripts for AppFlow.  These can be executed in any order \
-    b.)  Once data has loaded, Cloudformation for Glue Data Catalog.  This will deploy the Glue Data Catalog entries. \
+    b.)  Once data has loaded, run Cloudformation for Glue Data Catalog.  This will deploy the Glue Data Catalog entries. \
     c.)  Redshift samples, DDLs scripts should be run first. (be sure to create your own database in Redshift if not deploying to default before the DDLs) Execute in order of\
         1.  stg_ddl.sql\
         2.  dm_ddl.sql\
         3.  archdm_ddl.sql\
         Then these scripts, should be executed in the following order \
         4.  reporting_mvs.sql \
-        5.  auto_copy_data_jobs.sql (**NOTE at time of making this repo publicly available, autocopy utilised in this script is only available in preview, please reference this link for updates (https://docs.aws.amazon.com/redshift/latest/dg/loading-data-copy-job.html)re\
+        5.  auto_copy_data_jobs.sql (**NOTE at time of making this repo publicly available, autocopy utilised in this script is only available in preview, please reference this link for updates (https://docs.aws.amazon.com/redshift/latest/dg/loading-data-copy-job.html), before executing please find and replace all entries with 'acc-sap-corpmem' bucket with your S3 bucket name and the iam_role with the appropriate role within your Redshift environment \
         6.  each incremental*.sql script\
         7.  orchestration.sql\
     d.)  Cloudformation for Step Functions \

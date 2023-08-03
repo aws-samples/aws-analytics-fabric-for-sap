@@ -867,8 +867,8 @@ FROM
    
     temp_sales_document_item_match  tsih ;';
 
--- Refresh dm.sales_document_item_latest MV. This MV will be used to list the latest version of the sales_document_items
+-- Refresh archdm.sales_document_item_latest MV. This MV will be used to list the latest version of the sales_document_items
 
-EXECUTE 'refresh materialized view dm.sales_document_item_latest;';
+EXECUTE 'refresh materialized view archdm.sales_document_item_latest;';
 END
 $$

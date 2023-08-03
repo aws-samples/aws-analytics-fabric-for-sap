@@ -80,7 +80,8 @@ where
 
 --Materialised View sample for Consumption (Building on the above )
 
-CREATE MATERIALIZED VIEW salesorders AS
+/*
+CREATE MATERIALIZED VIEW archdm.salesorders AS
     select  h.sls_dstrbn_document_nbr,
             h.sales_document_type,
             h.order_reason,
@@ -90,9 +91,9 @@ CREATE MATERIALIZED VIEW salesorders AS
             i.material_number,
             i.net_price,
             i.number_of_order_items
-    from dm.sales_document_header_latest h
-    left join dm.sales_document_item_latest i on 
+    from archdm.sales_document_header_latest h
+    left join archdm.sales_document_item_latest i on 
       h.sls_dstrbn_document_nbr = i.sls_dstrbn_document_nbr;    
-
+*/
 
 

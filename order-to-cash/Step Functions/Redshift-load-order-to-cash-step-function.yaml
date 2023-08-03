@@ -1006,8 +1006,7 @@ Resources:
           status:
             - SUCCEEDED
           stateMachineArn:
-            - >-
-              arn:aws:states:us-east-1:086684561838:stateMachine:RedshiftETLStepFunction-EeLMsZIAos5S
+            - !Ref RedshiftETLStepFunction
       Name: Trigger_SAP_Analytics_Step_Function2
       State: ENABLED
       Targets:

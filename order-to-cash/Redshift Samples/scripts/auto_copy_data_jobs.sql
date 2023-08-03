@@ -1,6 +1,3 @@
---  BEFORE EXECUTING  please find and replace  'acc-sap-corpmem' with your bucket name and the iam_role with the appropriate role within your Redshift environment
-
-
 COPY stg.LIS_11_VAHDR
 FROM 's3://acc-sap-corpmem/cf_2lis_11_vahdr/'
 iam_role 'arn:aws:iam::086684561838:role/RedshiftServerlessImmersionRole'

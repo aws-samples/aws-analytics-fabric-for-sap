@@ -360,7 +360,7 @@ CREATE TABLE stg.customer_attr (
     lifsd character varying(2) ENCODE lzo,
     locco character varying(10) ENCODE lzo,
     loevm character varying(1) ENCODE lzo,
-    name1 character varying(35) ENCODE lzo,
+    name1 character varying(50) ENCODE lzo,
     name2 character varying(35) ENCODE lzo,
     name3 character varying(35) ENCODE lzo,
     name4 character varying(35) ENCODE lzo,
