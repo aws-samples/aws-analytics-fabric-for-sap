@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: >
-  Helping customers break down data silos with AWS Integration services
+  Helping customers break down data silos with AWS Integration services (SO9096)
 
 ##  To use this template, you must have installed the below extractors and created their service as per pre-requisites.  Once you have, simply find and replace the service details for each 
 ##  By default this schedules the below flows to run every five minutes

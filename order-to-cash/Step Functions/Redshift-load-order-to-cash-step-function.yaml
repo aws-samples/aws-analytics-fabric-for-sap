@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: "CloudFormation Template to deploy an ETL orchestration pipeline by using Redshift Data Api, Step Function, AWS Lambda and EventBridge"
+Description: "CloudFormation Template to deploy an ETL orchestration pipeline by using Redshift Data Api, Step Function, AWS Lambda and EventBridge (SO9096)"
 Parameters:
   RedshiftClusterEndpoint:
     Description: Redshift cluster endpoint including port number and database name
@@ -947,8 +947,14 @@ Resources:
               Statement:
                 -
                   Effect: Allow
-                  Action:
-                    - s3:*
+                  Action: 
+                     - s3:PutObject
+                     - s3:GetObject
+                     - s3:AbortMultipartUpload
+                     - s3:ListBucket
+                     - s3:DeleteObject
+                     - s3:GetObjectVersion
+                     - s3:ListMultipartUploadPart
                   Resource:
                     - !Sub "arn:aws:s3:::cloudformation-custom-resource-response-${AWS::Region}"
                     - !Sub "arn:aws:s3:::cloudformation-waitcondition-${AWS::Region}"

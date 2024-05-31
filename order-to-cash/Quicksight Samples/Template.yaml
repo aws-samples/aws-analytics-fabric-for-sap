@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: CloudFormation template for QuickSight datasource and datasets
+Description: CloudFormation template for QuickSight datasource and datasets (SO9096)
 
 # Parameters substituted in the Resources section
 # These parameters are names of the resources created in QuickSight
