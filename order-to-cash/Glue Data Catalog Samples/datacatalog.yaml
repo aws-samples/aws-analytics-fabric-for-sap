@@ -1,4 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template for creating a database and a tables for SAP accelerators in Glue (SO9096)
 # Sample CloudFormation template in YAML to demonstrate creating a database and a tables for SAP accelerators
 #
 # Parameters substituted in the Resources section
